@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
-import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
@@ -59,7 +58,7 @@ class DetailsAppBarWidgetState extends State<DetailsAppBarWidget> with SingleTic
             padding: EdgeInsets.only(left: offsetAnimation.value + 15.0, right: 15.0 - offsetAnimation.value),
             child: Stack(children: [
               IconButton(icon: Icon(Icons.shopping_cart, color: Theme.of(context).primaryColor), onPressed: () {
-                Navigator.pushNamed(context, RouteHelper.getCartRoute());
+                // Navigator.pushNamed(context, RouteHelper.getCartRoute());
               }),
               Positioned(
                 top: 5, right: 5,

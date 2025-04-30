@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sixamtech.sixam_mart_user">
+    package="com.mandapam.user">
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <queries>
         <intent>
@@ -26,7 +28,11 @@
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB3bs7otrlVeqcKYo3zw2Fn-luzy1Chp14"/>
+        android:value="AIzaSyB3bs7otrlVeqcKYo3zw2Fn-luzy1Chp14"/>
+
+<!--        AIzaSyC9muW6kBBvjeQeGySRT9msxYH63gigR1A-->
+
+        <!--            android:value="AIzaSyB3bs7otrlVeqcKYo3zw2Fn-luzy1Chp14"/>-->
 
         <activity
             android:name=".MainActivity"
@@ -76,7 +82,7 @@
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
 
         <activity
-            android:name="com.sixamtech.sixam_mart_user.sign_in_with_apple.SignInWithAppleCallback"
+            android:name="com.mandapam.user.sign_in_with_apple.SignInWithAppleCallback"
             android:exported="true"
             >
             <intent-filter>
@@ -89,7 +95,7 @@
             </intent-filter>
         </activity>
 
-        <provider
+        <!-- <provider
             android:name="com.pichillilorenzo.flutter_inappwebview.InAppWebViewFileProvider"
             android:authorities="${applicationId}.flutter_inappwebview.fileprovider"
             android:exported="false"
@@ -97,7 +103,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider>
+        </provider> -->
 
     </application>
 </manifest>

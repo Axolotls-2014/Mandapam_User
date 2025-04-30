@@ -58,26 +58,26 @@ class _WebBasicMedicineNearbyViewWidgetState extends State<WebBasicMedicineNearb
     return GetBuilder<ItemController>(builder: (itemController) {
       List<Categories>? categories = [];
       List<Item>? products = [];
-
-      if(itemController.basicMedicineModel != null){
-        categories.add(Categories(name: 'all'.tr, id: 0));
-        for (var category in itemController.basicMedicineModel!.categories!) {
-          categories.add(category);
-        }
-        for (var product in itemController.basicMedicineModel!.products!) {
-          if(selectedCategory == 0) {
-            products.add(product);
-          }
-          if (product.categoryIds!.any((category) => category.id == categories[selectedCategory].id)) {
-            products.add(product);
-          }
-        }
-      }
-
-      if(itemController.basicMedicineModel != null && products.length > 4 && isFirstTime){
-        showForwardButton = true;
-        isFirstTime = false;
-      }
+      //
+      // if(itemController.basicMedicineModel != null){
+      //   categories.add(Categories(name: 'all'.tr, id: 0));
+      //   for (var category in itemController.basicMedicineModel!.categories!) {
+      //     categories.add(category);
+      //   }
+      //   for (var product in itemController.basicMedicineModel!.products!) {
+      //     if(selectedCategory == 0) {
+      //       products.add(product);
+      //     }
+      //     if (product.categoryIds!.any((category) => category.id == categories[selectedCategory].id)) {
+      //       products.add(product);
+      //     }
+      //   }
+      // }
+      //
+      // if(itemController.basicMedicineModel != null && products.length > 4 && isFirstTime){
+      //   showForwardButton = true;
+      //   isFirstTime = false;
+      // }
 
       return products.isNotEmpty ? Column(children: [
         Padding(

@@ -4,7 +4,6 @@ import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
-import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
@@ -13,7 +12,6 @@ import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/cart_count_view.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
-import 'package:sixam_mart/common/widgets/discount_tag.dart';
 import 'package:sixam_mart/common/widgets/hover/on_hover.dart';
 import 'package:sixam_mart/common/widgets/organic_tag.dart';
 
@@ -24,8 +22,8 @@ class MedicineItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isShop = Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.ecommerce;
-    double? discount = item.storeDiscount == 0 ? item.discount : item.storeDiscount;
-    String? discountType = item.storeDiscount == 0 ? item.discountType : 'percent';
+    // double? discount = item.storeDiscount == 0 ? item.discount : item.storeDiscount;
+    // String? discountType = item.storeDiscount == 0 ? item.discountType : 'percent';
 
     return OnHover(
       isItem: true,
@@ -59,11 +57,11 @@ class MedicineItemCard extends StatelessWidget {
                   item: item,
                 ),
 
-                DiscountTag(
-                  discount: discount,
-                  discountType: discountType,
-                  freeDelivery: false,
-                ),
+                // DiscountTag(
+                //   discount: discount,
+                //   discountType: discountType,
+                //   freeDelivery: false,
+                // ),
 
                 OrganicTag(item: item, placeInImage: false),
 
@@ -89,62 +87,62 @@ class MedicineItemCard extends StatelessWidget {
                   crossAxisAlignment: isShop ? CrossAxisAlignment.center : CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
 
                   Text(
-                    item.storeName ?? '',
+                    item.title ?? '',
                     maxLines: 1, overflow: TextOverflow.ellipsis,
                     style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
                   ),
 
-                  Text(item.name ?? '', style: robotoBold,
+                  Text(item.title ?? '', style: robotoBold,
                     maxLines: 1, overflow: TextOverflow.ellipsis,
                   ),
 
-                  if(item.genericName != null && item.genericName!.isNotEmpty)
-                    Wrap(
-                      children: List.generate(item.genericName!.length, (index) {
-                        return Text(
-                          '${item.genericName![index]}${item.genericName!.length-1 == index ? '.' : ', '}',
-                          style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5), fontSize: Dimensions.fontSizeSmall),
-                          maxLines: 1, overflow: TextOverflow.ellipsis,
-                        );
-                      }),
-                    ),
+                  // if(item.genericName != null && item.genericName!.isNotEmpty)
+                  //   Wrap(
+                  //     children: List.generate(item.genericName!.length, (index) {
+                  //       return Text(
+                  //         '${item.genericName![index]}${item.genericName!.length-1 == index ? '.' : ', '}',
+                  //         style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5), fontSize: Dimensions.fontSizeSmall),
+                  //         maxLines: 1, overflow: TextOverflow.ellipsis,
+                  //       );
+                  //     }),
+                  //   ),
 
                   if(isShop)
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
                       const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                      Text(item.avgRating.toString(), style: robotoRegular),
-                      const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                      Text("(${item.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+                      // Text(item.avgRating.toString(), style: robotoRegular),
+                      // const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                      //
+                      // Text("(${item.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
 
                     ]),
 
-                  item.discount != null && item.discount! > 0  ? Text(
-                    PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(item)),
-                    style: robotoMedium.copyWith(
-                      fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
-                      decoration: TextDecoration.lineThrough,
-                    ), textDirection: TextDirection.ltr,
-                  ) : const SizedBox(),
+                  // item.discount != null && item.discount! > 0  ? Text(
+                  //   PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(item)),
+                  //   style: robotoMedium.copyWith(
+                  //     fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
+                  //     decoration: TextDecoration.lineThrough,
+                  //   ), textDirection: TextDirection.ltr,
+                  // ) : const SizedBox(),
 
                   Align(
                     alignment: isShop ? Alignment.center : Alignment.centerLeft,
-                    child: Row(mainAxisAlignment: isShop ? MainAxisAlignment.center : MainAxisAlignment.start, children: [
-                      Text(
-                        PriceConverter.convertPrice(
-                          Get.find<ItemController>().getStartingPrice(item), discount: item.discount,
-                          discountType: item.discountType,
-                        ),
-                        textDirection: TextDirection.ltr, style: robotoMedium,
-                      ),
-                      const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                    child: Row(mainAxisAlignment: isShop ? MainAxisAlignment.center : MainAxisAlignment.start, children: const [
+                      // Text(
+                      //   PriceConverter.convertPrice(
+                      //     Get.find<ItemController>().getStartingPrice(item), discount: item.discount,
+                      //     discountType: item.discountType,
+                      //   ),
+                      //   textDirection: TextDirection.ltr, style: robotoMedium,
+                      // ),
+                      SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                      (Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! && item.unitType != null) ? Text(
-                        '/ ${ item.unitType ?? ''}',
-                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).hintColor),
-                      ) : const SizedBox(),
+                      // (Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! && item.unitType != null) ? Text(
+                      //   '/ ${ item.unitType ?? ''}',
+                      //   style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).hintColor),
+                      // ) : const SizedBox(),
                     ]),
                   ),
                 ],

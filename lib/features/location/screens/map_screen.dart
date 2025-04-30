@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
@@ -44,6 +46,7 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log("In MapSCreen::build");
     return Scaffold(
       appBar: CustomAppBar(title: widget.storeName.isNotEmpty ? widget.storeName : 'location'.tr),
       endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,

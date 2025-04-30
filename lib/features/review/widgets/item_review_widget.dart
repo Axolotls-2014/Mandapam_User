@@ -1,7 +1,6 @@
 import 'package:sixam_mart/features/review/controllers/review_controller.dart';
 import 'package:sixam_mart/features/review/domain/models/review_body_model.dart';
 import 'package:sixam_mart/features/order/domain/models/order_details_model.dart';
-import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_button.dart';
@@ -57,9 +56,9 @@ class _ItemReviewWidgetState extends State<ItemReviewWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(widget.orderDetailsList[index].itemDetails!.name!, style: robotoMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
+                        Text(widget.orderDetailsList[index].itemDetails!.title!, style: robotoMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
                         const SizedBox(height: 10),
-                        Text(PriceConverter.convertPrice(widget.orderDetailsList[index].itemDetails!.price), style: robotoBold, textDirection: TextDirection.ltr),
+                        // Text(PriceConverter.convertPrice(widget.orderDetailsList[index].itemDetails!.price), style: robotoBold, textDirection: TextDirection.ltr),
                       ],
                     )),
                     Row(children: [

@@ -26,20 +26,20 @@ class _ProductWithCategoriesViewState extends State<ProductWithCategoriesView> {
     return GetBuilder<ItemController>(builder: (itemController) {
       List<Categories>? categories = [];
       List<Item>? products = [];
-      if(widget.fromShop ? itemController.reviewedCategoriesList != null && itemController.reviewedItemList != null : itemController.basicMedicineModel != null){
-        categories.add(Categories(name: 'all'.tr, id: 0));
-        for (var category in widget.fromShop ? itemController.reviewedCategoriesList! : itemController.basicMedicineModel!.categories!) {
-          categories.add(category);
-        }
-        for (var product in widget.fromShop ? itemController.reviewedItemList! : itemController.basicMedicineModel!.products!) {
-          if(selectedCategory == 0) {
-            products.add(product);
-          }
-          if(categories[selectedCategory].id == product.categoryIds?[0].id){
-            products.add(product);
-          }
-        }
-      }
+      // if(widget.fromShop ? itemController.reviewedCategoriesList != null && itemController.reviewedItemList != null : itemController.basicMedicineModel != null){
+      //   categories.add(Categories(name: 'all'.tr, id: 0));
+      //   for (var category in widget.fromShop ? itemController.reviewedCategoriesList! : itemController.basicMedicineModel!.categories!) {
+      //     categories.add(category);
+      //   }
+      //   for (var product in widget.fromShop ? itemController.reviewedItemList! : itemController.basicMedicineModel!.products!) {
+      //     if(selectedCategory == 0) {
+      //       products.add(product);
+      //     }
+      //     if(categories[selectedCategory].id == product.categoryIds?[0].id){
+      //       products.add(product);
+      //     }
+      //   }
+      // }
       return products.isNotEmpty ? Padding(
         padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

@@ -23,7 +23,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
     String? type
   }) async {
     if (categoryList) {
-      // Ensure that allCategory is not null before passing it
+
       if (allCategory == null) {
         throw ArgumentError('allCategory cannot be null when categoryList is true');
       }
@@ -50,7 +50,6 @@ class CategoryRepository implements CategoryRepositoryInterface {
     }
   }
 
-
   Future<List<CategoryModel>?> _getCategoryList(bool allCategory) async {
     List<CategoryModel>? categoryList;
     Response response = await apiClient.getData(AppConstants.categoryUri, headers: allCategory ? {
@@ -66,7 +65,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
           List<dynamic> events = responseBody['Events'];
           for (var category in events) {
             if (category is Map<String, dynamic>) {
-              categoryList!.add(CategoryModel.fromJson(category));
+              categoryList.add(CategoryModel.fromJson(category));
             }
           }
         }
@@ -75,7 +74,6 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
     return categoryList;
   }
-
 
   Future<List<CategoryModel>?> _getSubCategoryList(String? parentID) async {
     List<CategoryModel>? subCategoryList;

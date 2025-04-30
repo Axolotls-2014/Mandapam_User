@@ -5,19 +5,19 @@ import 'package:sixam_mart/util/images.dart';
 
 class AppConstants {
   static const String appName = 'Mandapam';
-  static const double appVersion = 2.10;
+  static const double appVersion = 1.0;
 
   static const String fontFamily = 'Roboto';
   static const bool payInWevView = false;
   static const int balanceInputLen = 10;
-  static const String webHostedUrl = 'https://mandapam.co';
+  static const String webHostedUrl = 'd';
   static const bool useReactWebsite = false;
 
   static const String baseUrl = 'https://mandapam.co';
   static const String categoryUri = '/api/v1/events';
   static const String bannerUri = '/api/v1/banners';
   static const String storeItemUri = '/api/v1/items/latest';
-  static const String popularItemUri = '/api/v1/items/popular';
+  static const String popularItemUri = '/api/v1/events/get_popular_events';
   static const String reviewedItemUri = '/api/v1/items/most-reviewed';
   static const String searchItemUri = '/api/v1/items/details/';
   static const String subCategoryUri = '/api/v1/categories/childes/';
@@ -287,5 +287,4 @@ class AppConstants {
   ];
 }
 
-
-// isWeb
+// API_CLIEND:::====>

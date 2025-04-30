@@ -26,13 +26,14 @@ class TimeSlotSection extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isGuestLoggedIn = AuthHelper.isGuestLoggedIn();
     return Column(children: [
-      !isGuestLoggedIn && storeId == null && checkoutController.store!.scheduleOrder! && cartList!.isNotEmpty && cartList![0]!.item!.availableDateStarts == null ? Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      // !isGuestLoggedIn && storeId == null && checkoutController.store!.scheduleOrder! && cartList!.isNotEmpty && cartList![0]!.item!.availableDateStarts == null ? Container(
+      //   decoration: BoxDecoration(
+      //     color: Theme.of(context).cardColor,
+      //     boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+      //   ),
+      //   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
+      //   child:
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             Text('preference_time'.tr, style: robotoMedium),
             const SizedBox(width: Dimensions.paddingSizeExtraSmall),
@@ -97,9 +98,9 @@ class TimeSlotSection extends StatelessWidget {
           ),
           const SizedBox(height: Dimensions.paddingSizeLarge),
         ]),
-      ) : const SizedBox(),
+      // ) : const SizedBox(),
 
-      SizedBox(height: !isGuestLoggedIn && storeId == null && checkoutController.store!.scheduleOrder! && cartList!.isNotEmpty && cartList![0]!.item!.availableDateStarts == null ? Dimensions.paddingSizeSmall : 0),
+      // SizedBox(height: !isGuestLoggedIn && storeId == null && checkoutController.store!.scheduleOrder! && cartList!.isNotEmpty && cartList![0]!.item!.availableDateStarts == null ? Dimensions.paddingSizeSmall : 0),
 
     ]);
   }

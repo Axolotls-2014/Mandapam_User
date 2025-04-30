@@ -150,10 +150,10 @@ class VisitAgainCard extends StatelessWidget {
                 showCustomSnackBar('you_are_not_logged_in'.tr);
               }
             },
-            child: Icon(
-              isWished ? Icons.favorite : Icons.favorite_border,  size: 20,
-              color: Theme.of(context).primaryColor,
-            ),
+            // child: Icon(
+            //   isWished ? Icons.favorite : Icons.favorite_border,  size: 20,
+            //   color: Theme.of(context).primaryColor,
+            // ),
           );
         }),
       ),

@@ -16,7 +16,7 @@ class ImageViewerScreen extends StatelessWidget {
     Get.find<ItemController>().setImageIndex(0, false);
     List<String?> imageList = [];
     imageList.add(item.imageFullUrl);
-    imageList.addAll(item.imagesFullUrl!);
+    // imageList.addAll(item.imageFullUrl!);
     final PageController pageController = PageController();
 
     return Scaffold(

@@ -5,7 +5,6 @@ import 'package:sixam_mart/features/search/domain/models/search_suggestion_model
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/features/search/domain/repositories/search_repository_interface.dart';
 import 'package:sixam_mart/features/search/domain/services/search_service_interface.dart';
-import 'package:sixam_mart/helper/date_converter.dart';
 
 class SearchService implements SearchServiceInterface {
   final SearchRepositoryInterface searchRepositoryInterface;
@@ -40,31 +39,31 @@ class SearchService implements SearchServiceInterface {
   List<Item>? sortItemSearchList( List<Item>? allItemList, double upperValue, double lowerValue, int rating, bool veg, bool nonVeg, bool isAvailableItems, bool isDiscountedItems, int sortIndex) {
     List<Item>? searchItemList= [];
     searchItemList.addAll(allItemList!);
-    if(upperValue > 0) {
-      searchItemList.removeWhere((product) => product.price! <= lowerValue || product.price! > upperValue);
-    }
-    if(rating != -1) {
-      searchItemList.removeWhere((product) => product.avgRating! < rating);
-    }
-    if(!veg && nonVeg) {
-      searchItemList.removeWhere((product) => product.veg == 1);
-    }
-    if(!nonVeg && veg) {
-      searchItemList.removeWhere((product) => product.veg == 0);
-    }
+    // if(upperValue > 0) {
+    //   searchItemList.removeWhere((product) => product.price! <= lowerValue || product.price! > upperValue);
+    // }
+    // if(rating != -1) {
+    //   searchItemList.removeWhere((product) => product.avgRating! < rating);
+    // }
+    // if(!veg && nonVeg) {
+    //   searchItemList.removeWhere((product) => product.veg == 1);
+    // }
+    // if(!nonVeg && veg) {
+    //   searchItemList.removeWhere((product) => product.veg == 0);
+    // }
     if(isAvailableItems || isDiscountedItems) {
-      if(isAvailableItems) {
-        searchItemList.removeWhere((product) => !DateConverter.isAvailable(product.availableTimeStarts, product.availableTimeEnds));
-      }
-      if(isDiscountedItems) {
-        searchItemList.removeWhere((product) => product.discount == 0);
-      }
+      // if(isAvailableItems) {
+      //   searchItemList.removeWhere((product) => !DateConverter.isAvailable(product.availableTimeStarts, product.availableTimeEnds));
+      // }
+      // if(isDiscountedItems) {
+      //   searchItemList.removeWhere((product) => product.discount == 0);
+      // }
     }
     if(sortIndex != -1) {
       if(sortIndex == 0) {
-        searchItemList.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+        searchItemList.sort((a, b) => a.title!.toLowerCase().compareTo(b.title!.toLowerCase()));
       }else {
-        searchItemList.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+        searchItemList.sort((a, b) => a.title!.toLowerCase().compareTo(b.title!.toLowerCase()));
         Iterable iterable = searchItemList.reversed;
         searchItemList = iterable.toList() as List<Item>?;
       }

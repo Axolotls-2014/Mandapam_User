@@ -111,10 +111,10 @@ class PopularStoreView extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                   ),
-                                  child: Icon(
-                                    isWished ? Icons.favorite : Icons.favorite_border,  size: 15,
-                                    color: isWished ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
-                                  ),
+                                  // child: Icon(
+                                  //   isWished ? Icons.favorite : Icons.favorite_border,  size: 15,
+                                  //   color: isWished ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
+                                  // ),
                                 ),
                               );
                             }),

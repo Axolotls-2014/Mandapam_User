@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
-import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
@@ -13,7 +11,6 @@ import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/cart_count_view.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
-import 'package:sixam_mart/common/widgets/discount_tag.dart';
 import 'package:sixam_mart/common/widgets/hover/on_hover.dart';
 import 'package:sixam_mart/common/widgets/organic_tag.dart';
 
@@ -27,8 +24,8 @@ class ReviewItemCard extends StatelessWidget {
     bool isShop = Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.ecommerce;
     bool isFood = Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.food;
 
-    double? discount = item?.storeDiscount == 0 ? item?.discount : item?.storeDiscount;
-    String? discountType = item?.storeDiscount == 0 ? item?.discountType : 'percent';
+    // double? discount = item?.storeDiscount == 0 ? item?.discount : item?.storeDiscount;
+    // String? discountType = item?.storeDiscount == 0 ? item?.discountType : 'percent';
 
     return OnHover(
       isItem: true,
@@ -63,11 +60,11 @@ class ReviewItemCard extends StatelessWidget {
                   item: item!,
                 ),
 
-                DiscountTag(
-                  isFloating: true,
-                  discount: Get.find<ItemController>().getDiscount(item!),
-                  discountType: Get.find<ItemController>().getDiscountType(item!),
-                ),
+                // DiscountTag(
+                //   isFloating: true,
+                //   discount: Get.find<ItemController>().getDiscount(item!),
+                //   discountType: Get.find<ItemController>().getDiscountType(item!),
+                // ),
               ],
               ),
             ),
@@ -79,36 +76,36 @@ class ReviewItemCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: isFeatured ? CrossAxisAlignment.start : CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Text(
-                    item!.storeName!, maxLines: 1, overflow: TextOverflow.ellipsis,
+                    item!.title!, maxLines: 1, overflow: TextOverflow.ellipsis,
                     style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
                   ),
 
-                  Text(item!.name!, maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoBold),
+                  Text(item!.title!, maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoBold),
 
-                  item!.ratingCount! > 0 ? Row(mainAxisAlignment: isFeatured ? MainAxisAlignment.start : MainAxisAlignment.center, children: [
-                    Icon(Icons.star, size: 14, color: Theme.of(context).primaryColor),
-                    const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                    Text(item!.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
-                    const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                    Text("(${item!.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
-                  ]) : const SizedBox(),
+                  // item!.ratingCount! > 0 ? Row(mainAxisAlignment: isFeatured ? MainAxisAlignment.start : MainAxisAlignment.center, children: [
+                  //   Icon(Icons.star, size: 14, color: Theme.of(context).primaryColor),
+                  //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                  //   Text(item!.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                  //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                  //   Text("(${item!.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+                  // ]) : const SizedBox(),
 
-                  Wrap(crossAxisAlignment: WrapCrossAlignment.center, alignment: WrapAlignment.start, children: [
-                    item!.discount != null && item!.discount! > 0  ? Text(
-                      PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(item!)),
-                      style: robotoRegular.copyWith(
-                        fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
-                        decoration: TextDecoration.lineThrough,
-                      ),
-                    ) : const SizedBox(),
-                    SizedBox(width: item!.discount != null && item!.discount! > 0  ? Dimensions.paddingSizeExtraSmall : 0),
-
-                    Text(
-                      PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(item!), discount: item!.discount,
-                          discountType: item!.discountType),
-                      style: robotoMedium, textDirection: TextDirection.ltr,
-                    ),
-                  ]),
+                  // Wrap(crossAxisAlignment: WrapCrossAlignment.center, alignment: WrapAlignment.start, children: [
+                  //   item!.discount != null && item!.discount! > 0  ? Text(
+                  //     PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(item!)),
+                  //     style: robotoRegular.copyWith(
+                  //       fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
+                  //       decoration: TextDecoration.lineThrough,
+                  //     ),
+                  //   ) : const SizedBox(),
+                  //   SizedBox(width: item!.discount != null && item!.discount! > 0  ? Dimensions.paddingSizeExtraSmall : 0),
+                  //
+                  //   Text(
+                  //     PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(item!), discount: item!.discount,
+                  //         discountType: item!.discountType),
+                  //     style: robotoMedium, textDirection: TextDirection.ltr,
+                  //   ),
+                  // ]),
                   // SizedBox(height: item!.discount != null && item!.discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
 
 
@@ -145,19 +142,19 @@ class ReviewItemCard extends StatelessWidget {
                 item: item!,
               ),
 
-              item!.isStoreHalalActive! && item!.isHalalItem! ? const Positioned(
-                top: 35, right: 10,
-                child: CustomAssetImageWidget(
-                  Images.halalTag,
-                  height: 20, width: 20,
-                ),
-              ) : const SizedBox(),
+              // item!.isStoreHalalActive! && item!.isHalalItem! ? const Positioned(
+              //   top: 35, right: 10,
+              //   child: CustomAssetImageWidget(
+              //     Images.halalTag,
+              //     height: 20, width: 20,
+              //   ),
+              // ) : const SizedBox(),
 
-              DiscountTag(
-                isFloating: true,
-                discount: Get.find<ItemController>().getDiscount(item!),
-                discountType: Get.find<ItemController>().getDiscountType(item!),
-              ),
+              // DiscountTag(
+              //   isFloating: true,
+              //   discount: Get.find<ItemController>().getDiscount(item!),
+              //   discountType: Get.find<ItemController>().getDiscountType(item!),
+              // ),
 
               OrganicTag(item: item!, placeInImage: false),
 
@@ -181,78 +178,78 @@ class ReviewItemCard extends StatelessWidget {
                             const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
                           Text(
-                            item!.storeName!, maxLines: 1, overflow: TextOverflow.ellipsis,
+                            item!.title!, maxLines: 1, overflow: TextOverflow.ellipsis,
                             style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
                           ),
 
-                          Text(item!.name!, maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoBold),
+                          Text(item!.title!, maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoBold),
 
-                          item!.ratingCount! > 0 ? Row(mainAxisAlignment: isFeatured ? MainAxisAlignment.start : MainAxisAlignment.center, children: [
-                            Icon(Icons.star, size: 14, color: Theme.of(context).primaryColor),
-                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                            Text(item!.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
-                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                            Text("(${item!.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
-                          ]) : const SizedBox(),
+                          // item!.ratingCount! > 0 ? Row(mainAxisAlignment: isFeatured ? MainAxisAlignment.start : MainAxisAlignment.center, children: [
+                          //   Icon(Icons.star, size: 14, color: Theme.of(context).primaryColor),
+                          //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                          //   Text(item!.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                          //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                          //   Text("(${item!.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+                          // ]) : const SizedBox(),
 
-                          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                            discount != null && discount > 0 ? Text(
-                              PriceConverter.convertPrice(
-                                Get.find<ItemController>().getStartingPrice(item!),
-                              ),
-                              style: robotoRegular.copyWith(
-                                fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough,
-                              ),
-                            ) : const SizedBox(),
-                            SizedBox(width: item!.discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
+                          const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            // discount != null && discount > 0 ? Text(
+                            //   PriceConverter.convertPrice(
+                            //     Get.find<ItemController>().getStartingPrice(item!),
+                            //   ),
+                            //   style: robotoRegular.copyWith(
+                            //     fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough,
+                            //   ),
+                            // ) : const SizedBox(),
+                            // SizedBox(width: item!.discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
 
-                            Text(
-                              PriceConverter.convertPrice(
-                                Get.find<ItemController>().getStartingPrice(item!),
-                                discount: discount,
-                                discountType: discountType,
-                              ),
-                              style: robotoMedium, textDirection: TextDirection.ltr,
-                            ),
+                            // Text(
+                            //   PriceConverter.convertPrice(
+                            //     Get.find<ItemController>().getStartingPrice(item!),
+                            //     discount: discount,
+                            //     discountType: discountType,
+                            //   ),
+                            //   style: robotoMedium, textDirection: TextDirection.ltr,
+                            // ),
                           ]),
                         ],
                         ) : Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                           const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
-                          Text(item!.name!, style: robotoBold, maxLines: 1, overflow: TextOverflow.ellipsis),
+                          Text(item!.title!, style: robotoBold, maxLines: 1, overflow: TextOverflow.ellipsis),
 
-                          item!.ratingCount! > 0 ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                            Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
-                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                            Text(item!.avgRating!.toStringAsFixed(1), style: robotoRegular),
-                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                            Text("(${item!.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
-                          ]) : const SizedBox(),
+                          // item!.ratingCount! > 0 ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                          //   Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
+                          //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                          //   Text(item!.avgRating!.toStringAsFixed(1), style: robotoRegular),
+                          //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                          //   Text("(${item!.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+                          // ]) : const SizedBox(),
 
-                          (Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! && item!.unitType != null) ? Text(
-                            '(${item!.unitType ?? ''})',
-                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
-                          ) : const SizedBox(),
+                          // (Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! && item!.unitType != null) ? Text(
+                          //   '(${item!.unitType ?? ''})',
+                          //   style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
+                          // ) : const SizedBox(),
 
-                          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                          discount != null && discount > 0 ? Text(
-                              PriceConverter.convertPrice(
-                                Get.find<ItemController>().getStartingPrice(item!),
-                              ),
-                              style: robotoRegular.copyWith(
-                                fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough,
-                              ),
-                            ) : const SizedBox(),
+                          const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                          // discount != null && discount > 0 ? Text(
+                          //     PriceConverter.convertPrice(
+                          //       Get.find<ItemController>().getStartingPrice(item!),
+                          //     ),
+                          //     style: robotoRegular.copyWith(
+                          //       fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough,
+                          //     ),
+                          //   ) : const SizedBox(),
                             // SizedBox(height: item!.discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
 
-                            Text(
-                              PriceConverter.convertPrice(
-                                Get.find<ItemController>().getStartingPrice(item!),
-                                discount: discount,
-                                discountType: discountType,
-                              ),
-                              style: robotoMedium, textDirection: TextDirection.ltr,
-                            ),
+                            // Text(
+                            //   PriceConverter.convertPrice(
+                            //     Get.find<ItemController>().getStartingPrice(item!),
+                            //     discount: discount,
+                            //     discountType: discountType,
+                            //   ),
+                            //   style: robotoMedium, textDirection: TextDirection.ltr,
+                            // ),
                           ]),
                         ],
                         ),

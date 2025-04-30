@@ -36,7 +36,7 @@ class _HtmlViewerScreenState extends State<HtmlViewerScreen> {
           ? 'privacy_policy'.tr : widget.htmlType == HtmlType.shippingPolicy ? 'shipping_policy'.tr
           : widget.htmlType == HtmlType.refund ? 'refund_policy'.tr :  widget.htmlType == HtmlType.cancellation
           ? 'cancellation_policy'.tr : 'no_data_found'.tr),
-      endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
+      // endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
       body: GetBuilder<HtmlController>(builder: (htmlController) {
         return Center(
           child: htmlController.htmlText != null ? SingleChildScrollView(

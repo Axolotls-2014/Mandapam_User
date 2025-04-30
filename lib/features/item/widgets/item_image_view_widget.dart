@@ -24,7 +24,7 @@ class ItemImageViewWidget extends StatelessWidget {
       imageListForCampaign.add(item!.imageFullUrl);
     }else{
       imageList.add(item!.imageFullUrl);
-      imageList.addAll(item!.imagesFullUrl!);
+      // imageList.addAll(item!.imagesFullUrl!);
     }
 
     return GetBuilder<ItemController>(builder: (itemController) {

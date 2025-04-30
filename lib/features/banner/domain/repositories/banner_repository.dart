@@ -28,19 +28,15 @@ class BannerRepository implements BannerRepositoryInterface {
 
   Future<BannerModel?> _getBannerList() async {
     BannerModel? bannerModel;
-    Response response = await apiClient.getData(AppConstants.bannerUri);
-    if (response.statusCode == 200) {
-      bannerModel = BannerModel.fromJson(response.body);
-    }
     return bannerModel;
   }
 
   Future<BannerModel?> _getTaxiBannerList() async {
     BannerModel? bannerModel;
-    Response response = await apiClient.getData(AppConstants.taxiBannerUri);
-    if (response.statusCode == 200) {
-      bannerModel = BannerModel.fromJson(response.body);
-    }
+    // Response response = await apiClient.getData(AppConstants.taxiBannerUri);
+    // if (response.statusCode == 200) {
+    //   bannerModel = BannerModel.fromJson(response.body);
+    // }
     return bannerModel;
   }
 

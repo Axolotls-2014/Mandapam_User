@@ -17,6 +17,7 @@ import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
+import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 
 class LocationService implements LocationServiceInterface{
@@ -102,7 +103,11 @@ class LocationService implements LocationServiceInterface{
     if(route != null && canRoute) {
       Get.offAllNamed(route);
     }else {
-      Get.offAllNamed(RouteHelper.getInitialRoute());
+      if (AuthHelper.isLoggedIn()) {
+        Get.offAllNamed(RouteHelper.getInitialRoute());
+      } else {
+        Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
+      }
     }
   }
 

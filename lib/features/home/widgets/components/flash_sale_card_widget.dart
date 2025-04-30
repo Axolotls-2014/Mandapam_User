@@ -9,7 +9,6 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/cart_count_view.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
-import 'package:sixam_mart/common/widgets/discount_tag.dart';
 import 'package:sixam_mart/common/widgets/organic_tag.dart';
 
 class FlashSaleCard extends StatefulWidget {
@@ -83,9 +82,10 @@ class _FlashSaleCardState extends State<FlashSaleCard> {
   }
 
   Widget carouselCard(int index, ActiveProducts activeProduct) {
-    double? discount = activeProduct.item!.storeDiscount == 0 ? activeProduct.item!.discount : activeProduct.item!.storeDiscount;
-    String? discountType = activeProduct.item!.storeDiscount == 0 ? activeProduct.item!.discountType : 'percent';
-    return Column(children: [
+    // double? discount = activeProduct.item!.storeDiscount == 0 ? activeProduct.item!.discount : activeProduct.item!.storeDiscount;
+    // String? discountType = activeProduct.item!.storeDiscount == 0 ? activeProduct.item!.discountType : 'percent';
+    return
+      Column(children: [
         Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: ResponsiveHelper.isMobile(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeDefault,
@@ -113,12 +113,12 @@ class _FlashSaleCardState extends State<FlashSaleCard> {
                         ),
                       ),
 
-                      DiscountTag(
-                        discount: discount,
-                        discountType: discountType,
-                        freeDelivery: false,
-                        isFloating: true,
-                      ),
+                      // DiscountTag(
+                      //   discount: discount,
+                      //   discountType: discountType,
+                      //   freeDelivery: false,
+                      //   isFloating: true,
+                      // ),
 
                       OrganicTag(item: activeProduct.item!, placeInImage: false),
 

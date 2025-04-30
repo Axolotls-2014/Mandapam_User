@@ -28,7 +28,7 @@ class CartCountView extends StatelessWidget {
               onTap: cartController.isLoading ? null : () {
                 if (cartController.cartList[cartIndex].quantity! > 1) {
                   cartController.setDirectlyAddToCartIndex(index);
-                  cartController.setQuantity(false, cartIndex, cartController.cartList[cartIndex].stock, cartController.cartList[cartIndex].item!.quantityLimit);
+                  // cartController.setQuantity(false, cartIndex, cartController.cartList[cartIndex].stock, cartController.cartList[cartIndex].item!.quantityLimit);
                 }else {
                   cartController.removeFromCart(cartIndex);
                 }
@@ -58,7 +58,7 @@ class CartCountView extends StatelessWidget {
             InkWell(
               onTap: cartController.isLoading ? null : () {
                 cartController.setDirectlyAddToCartIndex(index);
-                cartController.setQuantity(true, cartIndex, cartController.cartList[cartIndex].stock, cartController.cartList[cartIndex].quantityLimit);
+                // cartController.setQuantity(true, cartIndex, cartController.cartList[cartIndex].stock, cartController.cartList[cartIndex].quantityLimit);
               },
               child: Container(
                 decoration: BoxDecoration(

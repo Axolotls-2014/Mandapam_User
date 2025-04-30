@@ -287,7 +287,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
 
             MenuIconButton(icon: Icons.shopping_cart, isCart: true, onTap: () {
               if(AddressHelper.getUserAddressFromSharedPref() != null) {
-                Get.toNamed(RouteHelper.getCartRoute());
+                // Get.toNamed(RouteHelper.getCartRoute());
               } else {
                 showCustomSnackBar('please_select_address_first'.tr,);
               }

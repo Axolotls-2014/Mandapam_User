@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/flash_sale/controllers/flash_sale_controller.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_recomanded_store_view_widget.dart';
-import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/home/widgets/components/flash_sale_card_widget.dart';
-import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
@@ -70,7 +68,7 @@ class _WebFlashSaleViewWidgetState extends State<WebFlashSaleViewWidget> {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-            child: Text("${item!.name}", style: robotoRegular, maxLines: 1, overflow: TextOverflow.ellipsis,),
+            child: Text("${item!.title}", style: robotoRegular, maxLines: 1, overflow: TextOverflow.ellipsis,),
           ),
           const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
@@ -80,24 +78,24 @@ class _WebFlashSaleViewWidgetState extends State<WebFlashSaleViewWidget> {
           ) : const SizedBox(),
           const SizedBox(height: Dimensions.paddingSizeExtraSmall),*/
 
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
 
-            item.discount != null && item.discount! > 0  ? Flexible(child: Text(
-              PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(item)),
-              style: robotoMedium.copyWith(
-                fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
-                decoration: TextDecoration.lineThrough,
-              ), textDirection: TextDirection.ltr,
-            )) : const SizedBox(),
-            SizedBox(width: item.discount != null && item.discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
+            // item.discount != null && item.discount! > 0  ? Flexible(child: Text(
+            //   PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(item)),
+            //   style: robotoMedium.copyWith(
+            //     fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
+            //     decoration: TextDecoration.lineThrough,
+            //   ), textDirection: TextDirection.ltr,
+            // )) : const SizedBox(),
+            // SizedBox(width: item.discount != null && item.discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
 
-            Flexible(child: Text(
-              PriceConverter.convertPrice(
-                Get.find<ItemController>().getStartingPrice(item), discount: item.discount,
-                discountType: item.discountType,
-              ),
-              textDirection: TextDirection.ltr, style: robotoMedium,
-            )),
+            // Flexible(child: Text(
+            //   PriceConverter.convertPrice(
+            //     Get.find<ItemController>().getStartingPrice(item), discount: item.discount,
+            //     discountType: item.discountType,
+            //   ),
+            //   textDirection: TextDirection.ltr, style: robotoMedium,
+            // )),
           ]),
           const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 

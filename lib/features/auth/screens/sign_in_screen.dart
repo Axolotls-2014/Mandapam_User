@@ -57,51 +57,24 @@ class SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: Navigator.canPop(context),
-      onPopInvokedWithResult: (didPop, result) async {
-        if(widget.fromNotification) {
-          Navigator.pushNamed(context, RouteHelper.getInitialRoute());
-        } else if(widget.exitFromApp) {
-          if (_canExit) {
-            if (GetPlatform.isAndroid) {
-              SystemNavigator.pop();
-            } else if (GetPlatform.isIOS) {
-              exit(0);
-            } else {
-              Navigator.pushNamed(context, RouteHelper.getInitialRoute());
-            }
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('back_press_again_to_exit'.tr, style: const TextStyle(color: Colors.white)),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.green,
-              duration: const Duration(seconds: 2),
-              margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-            ));
-            _canExit = true;
-            Timer(const Duration(seconds: 2), () {
-              _canExit = false;
-            });
-          }
-        } else {
-          return;
-        }
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
       },
       child: SafeArea(
         child: Scaffold(
           backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).cardColor,
           appBar: (ResponsiveHelper.isDesktop(context) ? null : !widget.exitFromApp ? AppBar(leading: IconButton(
             onPressed: () {
-              if(widget.fromNotification) {
-                Navigator.pushNamed(context, RouteHelper.getInitialRoute());
-              } else {
-                Get.back();
+              if (GetPlatform.isAndroid) {
+                SystemNavigator.pop();
+              } else if (GetPlatform.isIOS) {
+                exit(0);
               }
             },
             icon: Icon(Icons.arrow_back_ios_rounded, color: Theme.of(context).textTheme.bodyLarge!.color),
           ), elevation: 0, backgroundColor: Colors.transparent,
-          actions: const [SizedBox()],
+            actions: const [SizedBox()],
           ) : null),
           endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
           body: Center(
@@ -115,164 +88,165 @@ class SignInScreenState extends State<SignInScreen> {
               ) : null,
               child: GetBuilder<AuthController>(builder: (authController) {
                 return Center(
-                    child: SingleChildScrollView(
-                      child: Stack(
-                        children: [
-                          ResponsiveHelper.isDesktop(context) ? Positioned(
-                            top: 0,
-                            right: 0,
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: IconButton(
-                                padding: EdgeInsets.zero,
-                                onPressed: () => Get.back(),
-                                icon: const Icon(Icons.clear),
+                  child: SingleChildScrollView(
+                    child: Stack(
+                      children: [
+                        ResponsiveHelper.isDesktop(context) ? Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () => Get.back(),
+                              icon: const Icon(Icons.clear),
+                            ),
+                          ),
+                        ) : const SizedBox(),
+
+                        Form(
+                          key: _formKeyLogin,
+                          child: Padding(
+                            padding: ResponsiveHelper.isDesktop(context) ? const EdgeInsets.all(40) : EdgeInsets.zero,
+                            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              Image.asset(Images.logo, width: 125),
+                              // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                              // Center(child: Text(AppConstants.APP_NAME, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
+                              const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+
+                              Align(
+                                alignment: Get.find<LocalizationController>().isLtr ? Alignment.topLeft : Alignment.topRight,
+                                child: Text('sign_in'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
                               ),
-                            ),
-                          ) : const SizedBox(),
+                              const SizedBox(height: Dimensions.paddingSizeLarge),
 
-                          Form(
-                            key: _formKeyLogin,
-                            child: Padding(
-                              padding: ResponsiveHelper.isDesktop(context) ? const EdgeInsets.all(40) : EdgeInsets.zero,
-                              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                Image.asset(Images.logo, width: 125),
-                                // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                                // Center(child: Text(AppConstants.APP_NAME, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
-                                const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                              CustomTextField(
+                                titleText: 'enter_phone_number'.tr,
+                                controller: _phoneController,
+                                focusNode: _phoneFocus,
+                                nextFocus: _passwordFocus,
+                                inputType: TextInputType.phone,
+                                isPhone: true,
+                                onCountryChanged: (CountryCode countryCode) {
+                                  _countryDialCode = countryCode.dialCode;
+                                },
+                                countryDialCode: _countryDialCode ?? Get.find<LocalizationController>().locale.countryCode,
+                                required: true,
+                                labelText: 'phone'.tr,
+                                validator: (value) => ValidateCheck.validatePhone(value, null),
+                              ),
+                              const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
 
-                                Align(
-                                  alignment: Get.find<LocalizationController>().isLtr ? Alignment.topLeft : Alignment.topRight,
-                                  child: Text('sign_in'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
-                                ),
-                                const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                                CustomTextField(
-                                  titleText: 'enter_phone_number'.tr,
-                                  controller: _phoneController,
-                                  focusNode: _phoneFocus,
-                                  nextFocus: _passwordFocus,
-                                  inputType: TextInputType.phone,
-                                  isPhone: true,
-                                  onCountryChanged: (CountryCode countryCode) {
-                                    _countryDialCode = countryCode.dialCode;
-                                  },
-                                  countryDialCode: _countryDialCode ?? Get.find<LocalizationController>().locale.countryCode,
-                                  required: true,
-                                  labelText: 'phone'.tr,
-                                  validator: (value) => ValidateCheck.validatePhone(value, null),
-                                ),
-                                const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
-
-                                CustomTextField(
-                                  titleText: 'enter_your_password'.tr,
-                                  controller: _passwordController,
-                                  focusNode: _passwordFocus,
-                                  inputAction: TextInputAction.done,
-                                  inputType: TextInputType.visiblePassword,
-                                  prefixIcon: Icons.lock,
-                                  isPassword: true,
-                                  onSubmit: (text) => (GetPlatform.isWeb) ? _login(authController, _countryDialCode!) : null,
-                                  required: true,
-                                  labelText: 'password'.tr,
-                                  validator: (value) => ValidateCheck.validateEmptyText(value, null),
-                                ),
-                                const SizedBox(height: Dimensions.paddingSizeLarge),
+                              CustomTextField(
+                                titleText: 'enter_your_password'.tr,
+                                controller: _passwordController,
+                                focusNode: _passwordFocus,
+                                inputAction: TextInputAction.done,
+                                inputType: TextInputType.visiblePassword,
+                                prefixIcon: Icons.lock,
+                                isPassword: true,
+                                onSubmit: (text) => (GetPlatform.isWeb) ? _login(authController, _countryDialCode!) : null,
+                                required: true,
+                                labelText: 'password'.tr,
+                                validator: (value) => ValidateCheck.validateEmptyText(value, null),
+                              ),
+                              const SizedBox(height: Dimensions.paddingSizeLarge),
 
 
-                                Row(children: [
-                                  Expanded(
-                                    child: ListTile(
-                                      onTap: () => authController.toggleRememberMe(),
-                                      leading: Checkbox(
-                                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                        activeColor: Theme.of(context).primaryColor,
-                                        value: authController.isActiveRememberMe,
-                                        onChanged: (bool? isChecked) => authController.toggleRememberMe(),
-                                      ),
-                                      title: Text('remember_me'.tr),
-                                      contentPadding: EdgeInsets.zero,
-                                      visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-                                      dense: true,
-                                      horizontalTitleGap: 0,
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () => Get.toNamed(RouteHelper.getForgotPassRoute(false, null)),
-                                    child: Text('${'forgot_password'.tr}?', style: robotoRegular.copyWith(color: Theme.of(context).primaryColor)),
-                                  ),
-                                ]),
-                                const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                                const Align(
-                                  alignment: Alignment.center,
-                                  child: ConditionCheckBoxWidget(forDeliveryMan: false),
-                                ),
-
-                                const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                                CustomButton(
-                                  height: ResponsiveHelper.isDesktop(context) ? 45 : null,
-                                  width:  ResponsiveHelper.isDesktop(context) ? 180 : null,
-                                  buttonText: ResponsiveHelper.isDesktop(context) ? 'login'.tr : 'sign_in'.tr,
-                                  onPressed: () => _login(authController, _countryDialCode!),
-                                  isLoading: authController.isLoading,
-                                  radius: ResponsiveHelper.isDesktop(context) ? Dimensions.radiusSmall : Dimensions.radiusDefault,
-                                  isBold: !ResponsiveHelper.isDesktop(context),
-                                  fontSize: ResponsiveHelper.isDesktop(context) ? Dimensions.fontSizeDefault : null,
-                                ),
-                                const SizedBox(height: Dimensions.paddingSizeExtraLarge),
-
-                                ResponsiveHelper.isDesktop(context) ? const SizedBox() : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                  Text('do_not_have_account'.tr, style: robotoRegular.copyWith(color: Theme.of(context).hintColor)),
-
-                                  InkWell(
-                                    onTap: () {
-                                      if(ResponsiveHelper.isDesktop(context)){
-                                        Get.back();
-                                        Get.dialog(const SignUpScreen(exitFromApp: true));
-                                      }else{
-                                        Get.toNamed(RouteHelper.getSignUpRoute());
-                                      }
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                                      child: Text('sign_up'.tr, style: robotoMedium.copyWith(color: Theme.of(context).primaryColor)),
-                                    ),
-                                  ),
-                                ]),
-                                const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                                const SocialLoginWidget(),
-
-                                // ResponsiveHelper.isDesktop(context) ? const SizedBox() : const GuestButtonWidget(),
-
-                                ResponsiveHelper.isDesktop(context) ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                  Text('do_not_have_account'.tr, style: robotoRegular.copyWith(color: Theme.of(context).hintColor)),
-
-                                  InkWell(
-                                    onTap: () {
-                                      if(ResponsiveHelper.isDesktop(context)){
-                                        Get.back();
-                                        Get.dialog(const SignUpScreen());
-                                      }else{
-                                        Get.toNamed(RouteHelper.getSignUpRoute());
-                                      }
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                                      child: Text('sign_up'.tr, style: robotoMedium.copyWith(color: Theme.of(context).primaryColor)),
-                                    ),
-                                  ),
-                                ]) :  const SizedBox(),
-
+                              Row(children: [
+                                // Expanded(
+                                //   child: ListTile(
+                                //     onTap: () => authController.toggleRememberMe(),
+                                //     leading: Checkbox(
+                                //       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                //       activeColor: Theme.of(context).primaryColor,
+                                //       value: authController.isActiveRememberMe,
+                                //       onChanged: (bool? isChecked) => authController.toggleRememberMe(),
+                                //     ),
+                                //     title: Text('remember_me'.tr),
+                                //     contentPadding: EdgeInsets.zero,
+                                //     visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                                //     dense: true,
+                                //     horizontalTitleGap: 0,
+                                //   ),
+                                // ),
+                                // TextButton(
+                                //   onPressed: () => Get.toNamed(RouteHelper.getForgotPassRoute(false, null)),
+                                //   child: Text('${'forgot_password'.tr}?', style: robotoRegular.copyWith(color: Theme.of(context).primaryColor)),
+                                // ),
                               ]),
-                            ),
-                          )
-                        ],
-                      ),
+                              const SizedBox(height: Dimensions.paddingSizeLarge),
+
+                              const Align(
+                                alignment: Alignment.center,
+                                child: ConditionCheckBoxWidget(forDeliveryMan: false),
+                              ),
+
+                              const SizedBox(height: Dimensions.paddingSizeDefault),
+
+                              CustomButton(
+                                height: ResponsiveHelper.isDesktop(context) ? 45 : null,
+                                width:  ResponsiveHelper.isDesktop(context) ? 180 : null,
+                                buttonText: ResponsiveHelper.isDesktop(context) ? 'login'.tr : 'sign_in'.tr,
+                                onPressed: () => _login(authController, _countryDialCode!),
+                                isLoading: authController.isLoading,
+                                radius: ResponsiveHelper.isDesktop(context) ? Dimensions.radiusSmall : Dimensions.radiusDefault,
+                                isBold: !ResponsiveHelper.isDesktop(context),
+                                fontSize: ResponsiveHelper.isDesktop(context) ? Dimensions.fontSizeDefault : null,
+                              ),
+                              const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+
+                              ResponsiveHelper.isDesktop(context) ? const SizedBox() : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                Text('do_not_have_account'.tr, style: robotoRegular.copyWith(color: Theme.of(context).hintColor)),
+
+                                InkWell(
+                                  onTap: () {
+                                    if(ResponsiveHelper.isDesktop(context)){
+                                      Get.back();
+                                      Get.dialog(const SignUpScreen(exitFromApp: true));
+                                    }else{
+                                      Get.toNamed(RouteHelper.getSignUpRoute());
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                                    child: Text('sign_up'.tr, style: robotoMedium.copyWith(color: Theme.of(context).primaryColor)),
+                                  ),
+                                ),
+                              ]),
+                              const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                              const SocialLoginWidget(),
+
+                              // ResponsiveHelper.isDesktop(context) ? const SizedBox() : const GuestButtonWidget(),
+
+                              ResponsiveHelper.isDesktop(context) ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                // Text('do_not_have_account'.tr, style: robotoRegular.copyWith(color: Theme.of(context).hintColor)),
+                                //
+                                // InkWell(
+                                //   onTap: () {
+                                //     if(ResponsiveHelper.isDesktop(context)){
+                                //       Get.back();
+                                //       Get.dialog(const SignUpScreen());
+                                //     }else{
+                                //       Get.toNamed(RouteHelper.getSignUpRoute());
+                                //     }
+                                //   },
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                                //     child: Text('sign_up'.tr, style: robotoMedium.copyWith(color: Theme.of(context).primaryColor)),
+                                //   ),
+                                // ),
+                              ]
+                              ) :  const SizedBox(),
+
+                            ]),
+                          ),
+                        )
+                      ],
                     ),
-                  );
+                  ),
+                );
               }),
             ),
           ),
@@ -335,6 +309,7 @@ class SignInScreenState extends State<SignInScreen> {
         });
       }
     }
-
   }
 }
+
+// Decorator

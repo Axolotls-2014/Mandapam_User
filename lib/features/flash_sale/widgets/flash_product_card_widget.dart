@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
-import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/flash_sale/domain/models/product_flash_sale.dart';
-import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/cart_count_view.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
-import 'package:sixam_mart/common/widgets/discount_tag.dart';
 import 'package:sixam_mart/common/widgets/organic_tag.dart';
 
 class FlashProductCardWidget extends StatelessWidget {
@@ -21,8 +18,8 @@ class FlashProductCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double? discount = product.item!.storeDiscount == 0 ? product.item!.discount : product.item!.storeDiscount;
-    String? discountType = product.item!.storeDiscount == 0 ? product.item!.discountType : 'percent';
+    // double? discount = product.item!.storeDiscount == 0 ? product.item!.discount : product.item!.storeDiscount;
+    // String? discountType = product.item!.storeDiscount == 0 ? product.item!.discountType : 'percent';
 
     int stock = product.stock!;
     int sold = product.sold!;
@@ -49,12 +46,12 @@ class FlashProductCardWidget extends StatelessWidget {
                 ),
               ),
 
-              DiscountTag(
-                discount: discount,
-                discountType: discountType,
-                freeDelivery: false,
-                isFloating: true,
-              ),
+              // DiscountTag(
+              //   discount: discount,
+              //   discountType: discountType,
+              //   freeDelivery: false,
+              //   isFloating: true,
+              // ),
 
               OrganicTag(item: product.item!, placeInImage: false),
 
@@ -104,31 +101,31 @@ class FlashProductCardWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(product.item!.name ?? '', maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center, style: robotoMedium),
+                  // Text(product.item!.name ?? '', maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center, style: robotoMedium),
+                  //
+                  // (Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! && product.item!.unitType != null) ? Text(
+                  //   '(${ product.item!.unitType ?? ''})',
+                  //   style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+                  // ) : const SizedBox(),
 
-                  (Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! && product.item!.unitType != null) ? Text(
-                    '(${ product.item!.unitType ?? ''})',
-                    style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
-                  ) : const SizedBox(),
+                  const Wrap(children: [
 
-                  Wrap(children: [
-
-                    product.item!.discount != null && product.item!.discount! > 0  ? Text(
-                      PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(product.item!)),
-                      style: robotoMedium.copyWith(
-                        fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
-                        decoration: TextDecoration.lineThrough,
-                      ), textDirection: TextDirection.ltr,
-                    ) : const SizedBox(),
-                    SizedBox(width: product.item!.discount != null && product.item!.discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
-
-                    Text(
-                      PriceConverter.convertPrice(
-                        Get.find<ItemController>().getStartingPrice(product.item!), discount: product.item!.discount,
-                        discountType: product.item!.discountType,
-                      ),
-                      textDirection: TextDirection.ltr, style: robotoMedium,
-                    ),
+                    // product.item!.discount != null && product.item!.discount! > 0  ? Text(
+                    //   PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(product.item!)),
+                    //   style: robotoMedium.copyWith(
+                    //     fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
+                    //     decoration: TextDecoration.lineThrough,
+                    //   ), textDirection: TextDirection.ltr,
+                    // ) : const SizedBox(),
+                    // SizedBox(width: product.item!.discount != null && product.item!.discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
+                    //
+                    // Text(
+                    //   PriceConverter.convertPrice(
+                    //     Get.find<ItemController>().getStartingPrice(product.item!), discount: product.item!.discount,
+                    //     discountType: product.item!.discountType,
+                    //   ),
+                    //   textDirection: TextDirection.ltr, style: robotoMedium,
+                    // ),
 
                   ]),
 

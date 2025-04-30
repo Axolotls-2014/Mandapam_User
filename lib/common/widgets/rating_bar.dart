@@ -6,6 +6,7 @@ class RatingBar extends StatelessWidget {
   final double? rating;
   final double size;
   final int? ratingCount;
+  
   const RatingBar({super.key, required this.rating, required this.ratingCount, this.size = 18});
 
   @override

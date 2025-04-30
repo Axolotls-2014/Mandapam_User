@@ -1,4 +1,3 @@
-import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/basic_campaign_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:get/get.dart';
@@ -59,8 +58,8 @@ class CampaignController extends GetxController implements GetxService {
         List<Item> campaign = [];
         campaign.addAll(itemCampaignList);
         for (var c in campaign) {
-          if(!Get.find<SplashController>().getModuleConfig(c.moduleType).newVariation! || c.variations!.isEmpty || c.foodVariations!.isNotEmpty) {
-            _itemCampaignList!.add(c);
+          // if(!Get.find<SplashController>().getModuleConfig(c.moduleType).newVariation! || c.variations!.isEmpty || c.foodVariations!.isNotEmpty) {
+          //   _itemCampaignList!.add(c);
           }
         }
       }
@@ -68,4 +67,3 @@ class CampaignController extends GetxController implements GetxService {
     }
   }
 
-}

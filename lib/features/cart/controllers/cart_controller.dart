@@ -9,12 +9,10 @@ import 'package:sixam_mart/features/home/screens/home_screen.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
-import 'package:sixam_mart/helper/date_converter.dart';
 import 'package:sixam_mart/helper/module_helper.dart';
-import 'package:sixam_mart/helper/price_converter.dart';
 
 class CartController extends GetxController implements GetxService {
-  final CartServiceInterface cartServiceInterface;
+final CartServiceInterface cartServiceInterface;
 
   CartController({required this.cartServiceInterface});
 
@@ -109,28 +107,28 @@ class CartController extends GetxController implements GetxService {
     bool haveVariation = false;
     for (var cartModel in cartList) {
 
-      isFoodVariation = ModuleHelper.getModuleConfig(cartModel.item!.moduleType).newVariation!;
-      double? discount = cartModel.item!.storeDiscount == 0 ? cartModel.item!.discount : cartModel.item!.storeDiscount;
-      String? discountType = cartModel.item!.storeDiscount == 0 ? cartModel.item!.discountType : 'percent';
+      // isFoodVariation = ModuleHelper.getModuleConfig(cartModel.item!.moduleType).newVariation!;
+      // double? discount = cartModel.item!.storeDiscount == 0 ? cartModel.item!.discount : cartModel.item!.storeDiscount;
+      // String? discountType = cartModel.item!.storeDiscount == 0 ? cartModel.item!.discountType : 'percent';
 
       List<AddOns> addOnList = cartServiceInterface.prepareAddonList(cartModel);
 
       _addOnsList.add(addOnList);
-      _availableList.add(DateConverter.isAvailable(cartModel.item!.availableTimeStarts, cartModel.item!.availableTimeEnds));
+      // _availableList.add(DateConverter.isAvailable(cartModel.item!.availableTimeStarts, cartModel.item!.availableTimeEnds));
 
       _addOns = cartServiceInterface.calculateAddonPrice(_addOns, addOnList, cartModel);
 
-      _variationPrice = cartServiceInterface.calculateVariationPrice(isFoodVariation, cartModel, discount, discountType, _variationPrice);
+      // _variationPrice = cartServiceInterface.calculateVariationPrice(isFoodVariation, cartModel, discount, discountType, _variationPrice);
 
       variationWithoutDiscountPrice = cartServiceInterface.calculateVariationWithoutDiscountPrice(isFoodVariation, cartModel, variationWithoutDiscountPrice);
       haveVariation = cartServiceInterface.checkVariation(isFoodVariation, cartModel);
 
-      double price = haveVariation ? variationWithoutDiscountPrice : (cartModel.item!.price! * cartModel.quantity!);
-      double discountPrice = haveVariation ? (variationWithoutDiscountPrice - _variationPrice)
-          : (price - (PriceConverter.convertWithDiscount(cartModel.item!.price!, discount, discountType)! * cartModel.quantity!));
+      // double price = haveVariation ? variationWithoutDiscountPrice : (cartModel.item!.price! * cartModel.quantity!);
+      // double discountPrice = haveVariation ? (variationWithoutDiscountPrice - _variationPrice)
+      //     : (price - (PriceConverter.convertWithDiscount(cartModel.item!.price!, discount, discountType)! * cartModel.quantity!));
 
-      _itemPrice = _itemPrice + price;
-      _itemDiscountPrice = _itemDiscountPrice + discountPrice;
+      // _itemPrice = _itemPrice + price;
+      // _itemDiscountPrice = _itemDiscountPrice + discountPrice;
 
       haveVariation = false;
     }
@@ -162,20 +160,20 @@ class CartController extends GetxController implements GetxService {
     return cartServiceInterface.getCartId(cartIndex, _cartList);
   }
 
-  Future<void> setQuantity(bool isIncrement, int cartIndex, int? stock, int ? quantityLimit) async {
-    _isLoading = true;
-    update();
-
-    _cartList[cartIndex].quantity = await cartServiceInterface.decideItemQuantity(isIncrement, _cartList, cartIndex, stock, quantityLimit, Get.find<SplashController>().configModel!.moduleConfig!.module!.stock!);
-
-    double discountedPrice = await cartServiceInterface.calculateDiscountedPrice(_cartList[cartIndex], _cartList[cartIndex].quantity!, ModuleHelper.getModuleConfig(_cartList[cartIndex].item!.moduleType).newVariation!);
-    if(ModuleHelper.getModuleConfig(_cartList[cartIndex].item!.moduleType).newVariation!) {
-     await Get.find<ItemController>().setExistInCart(_cartList[cartIndex].item, null, notify: true);
-    }
-
-    await updateCartQuantityOnline(_cartList[cartIndex].id!, discountedPrice, _cartList[cartIndex].quantity!);
-
-  }
+  // Future<void> setQuantity(bool isIncrement, int cartIndex, int? stock, int ? quantityLimit) async {
+  //   _isLoading = true;
+  //   update();
+  //
+  //   _cartList[cartIndex].quantity = await cartServiceInterface.decideItemQuantity(isIncrement, _cartList, cartIndex, stock, quantityLimit, Get.find<SplashController>().configModel!.moduleConfig!.module!.stock!);
+  //
+  //   double discountedPrice = await cartServiceInterface.calculateDiscountedPrice(_cartList[cartIndex], _cartList[cartIndex].quantity!, ModuleHelper.getModuleConfig(_cartList[cartIndex].item!.moduleType).newVariation!);
+  //   if(ModuleHelper.getModuleConfig(_cartList[cartIndex].item!.moduleType).newVariation!) {
+  //    await Get.find<ItemController>().setExistInCart(_cartList[cartIndex].item, null, notify: true);
+  //   }
+  //
+  //   await updateCartQuantityOnline(_cartList[cartIndex].id!, discountedPrice, _cartList[cartIndex].quantity!);
+  //
+  // }
 
   Future<void> removeFromCart(int index, {Item? item}) async {
     int cartId = _cartList[index].id!;

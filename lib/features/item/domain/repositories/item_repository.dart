@@ -59,31 +59,64 @@ class ItemRepository implements ItemRepositoryInterface {
   }
 
   @override
-  Future getList({int? offset, String? type, bool isPopularItem = false, bool isReviewedItem = false, bool isFeaturedCategoryItems = false, bool isRecommendedItems = false, bool isCommonConditions = false, bool isDiscountedItems = false}) async {
-    if(isPopularItem) {
-      return await _getPopularItemList(type!);
-    } else if(isReviewedItem) {
-      return await _getReviewedItemList(type!);
-    } else if(isFeaturedCategoryItems) {
+  Future getList({
+    int? offset,
+    String? type,
+    bool isPopularItem = false,
+    bool isReviewedItem = false,
+    bool isFeaturedCategoryItems = false,
+    bool isRecommendedItems = false,
+    bool isCommonConditions = false,
+    bool isDiscountedItems = false,
+  }) async {
+    if (isPopularItem) {
+      if (type != null && type.isNotEmpty) {
+        return await _getPopularItemList(type);
+      } else {
+        throw Exception("Type is required for fetching popular items");
+      }
+    } else if (isReviewedItem) {
+      // Ensure `type` is not null for reviewed items
+      if (type != null && type.isNotEmpty) {
+        return await _getReviewedItemList(type);
+      } else {
+        throw Exception("Type is required for fetching reviewed items");
+      }
+    } else if (isFeaturedCategoryItems) {
       return await _getFeaturedCategoriesItemList();
-    } else if(isRecommendedItems) {
-      return await _getRecommendedItemList(type!);
-    } else if(isCommonConditions) {
+    } else if (isRecommendedItems) {
+      if (type != null && type.isNotEmpty) {
+        return await _getRecommendedItemList(type);
+      } else {
+        throw Exception("Type is required for fetching recommended items");
+      }
+    } else if (isCommonConditions) {
       return await _getCommonConditions();
-    } else if(isDiscountedItems) {
-      return await _getDiscountedItemList(type!);
+    } else if (isDiscountedItems) {
+      if (type != null && type.isNotEmpty) {
+        return await _getDiscountedItemList(type);
+      } else {
+        throw Exception("Type is required for fetching discounted items");
+      }
+    } else {
+      throw Exception("No valid condition provided to fetch the list");
     }
   }
+
 
   Future<List<Item>?> _getPopularItemList(String type) async {
     List<Item>? popularItemList;
     Response response = await apiClient.getData('${AppConstants.popularItemUri}?type=$type');
+
     if (response.statusCode == 200) {
       popularItemList = [];
-      popularItemList.addAll(ItemModel.fromJson(response.body).items!);
+      List<dynamic> events = response.body['Events'];
+      popularItemList = events.map((event) => Item.fromJson(event)).toList();
     }
+
     return popularItemList;
   }
+
 
   Future<ItemModel?> _getReviewedItemList(String type) async {
     ItemModel? itemModel;

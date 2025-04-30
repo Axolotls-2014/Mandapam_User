@@ -12,7 +12,7 @@ class ApiChecker {
         Get.offAllNamed(RouteHelper.getInitialRoute());
       });
     }else {
-      showCustomSnackBar(response.statusText, getXSnackBar: getXSnackBar);
+      // showCustomSnackBar(response.statusText, getXSnackBar: getXSnackBar);
     }
   }
 }

@@ -4,14 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/cart/widgets/extra_packaging_widget.dart';
 import 'package:sixam_mart/features/cart/widgets/not_available_bottom_sheet_widget.dart';
-import 'package:sixam_mart/features/coupon/controllers/coupon_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/features/cart/domain/models/cart_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
-import 'package:sixam_mart/helper/module_helper.dart';
 import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -27,12 +25,9 @@ import 'package:sixam_mart/common/widgets/menu_drawer.dart';
 import 'package:sixam_mart/common/widgets/no_data_screen.dart';
 import 'package:sixam_mart/common/widgets/web_constrained_box.dart';
 import 'package:sixam_mart/common/widgets/web_page_title_widget.dart';
-import 'package:sixam_mart/features/cart/widgets/cart_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixam_mart/features/cart/widgets/web_cart_items_widget.dart';
 import 'package:sixam_mart/features/cart/widgets/web_suggested_item_view_widget.dart';
-import 'package:sixam_mart/features/home/screens/home_screen.dart';
 import 'package:sixam_mart/features/store/screens/store_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -75,8 +70,8 @@ class _CartScreenState extends State<CartScreen> {
         Get.find<CartController>().toggleExtraPackage(willUpdate: false);
       }
       Get.find<CartController>().setAvailableIndex(-1, willUpdate: false);
-      Get.find<StoreController>().getCartStoreSuggestedItemList(Get.find<CartController>().cartList[0].item!.storeId);
-      Get.find<StoreController>().getStoreDetails(Store(id: Get.find<CartController>().cartList[0].item!.storeId, name: null), false, fromCart: true);
+      // Get.find<StoreController>().getCartStoreSuggestedItemList(Get.find<CartController>().cartList[0].item!.storeId);
+      // Get.find<StoreController>().getStoreDetails(Store(id: Get.find<CartController>().cartList[0].item!.storeId, name: null), false, fromCart: true);
       Get.find<CartController>().calculationCart();
       showReferAndEarnSnackBar();
     }
@@ -163,7 +158,7 @@ class _CartScreenState extends State<CartScreen> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ResponsiveHelper.isDesktop(context) ? WebCardItemsWidget(cartList: cartController.cartList) :
+                                // ResponsiveHelper.isDesktop(context) ? WebCardItemsWidget(cartList: cartController.cartList) :
                                 Expanded(
                                   flex: 7,
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -177,7 +172,9 @@ class _CartScreenState extends State<CartScreen> {
                                           itemCount: cartController.cartList.length,
                                           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                                           itemBuilder: (context, index) {
-                                            return CartItemWidget(cart: cartController.cartList[index], cartIndex: index, addOns: cartController.addOnsList[index], isAvailable: cartController.availableList[index]);
+                                            return null;
+                                          
+                                            // return CartItemWidget(cart: cartController.cartList[index], cartIndex: index, addOns: cartController.addOnsList[index], isAvailable: cartController.availableList[index]);
                                           },
                                         ),
 
@@ -189,8 +186,8 @@ class _CartScreenState extends State<CartScreen> {
                                             onPressed: (){
                                               cartController.forcefullySetModule(cartController.cartList[0].item!.moduleId!);
                                               Get.toNamed(
-                                                RouteHelper.getStoreRoute(id: cartController.cartList[0].item!.storeId, page: 'item'),
-                                                arguments: StoreScreen(store: Store(id: cartController.cartList[0].item!.storeId), fromModule: false),
+                                                RouteHelper.getStoreRoute(id: cartController.cartList[0].item!.id, page: 'item'),
+                                                arguments: StoreScreen(store: Store(id: cartController.cartList[0].item!.id), fromModule: false),
                                               );
                                             },
                                             icon: Icon(Icons.add_circle_outline_sharp, color: Theme.of(context).primaryColor),
@@ -266,19 +263,19 @@ class _CartScreenState extends State<CartScreen> {
                           Text('item_price'.tr, style: robotoRegular),
                           PriceConverter.convertAnimationPrice(cartController.itemPrice, textStyle: robotoRegular),
                         ]),
-                        SizedBox(height: cartController.variationPrice > 0 && ModuleHelper.getModuleConfig(cartController.cartList.first.item!.moduleType).newVariation!
-                            ? Dimensions.paddingSizeSmall : 0),
+                        // SizedBox(height: cartController.variationPrice > 0 && ModuleHelper.getModuleConfig(cartController.cartList.first.item!.moduleType).newVariation!
+                        //     ? Dimensions.paddingSizeSmall : 0),
 
-                        cartController.variationPrice > 0 && ModuleHelper.getModuleConfig(cartController.cartList.first.item!.moduleType).newVariation! ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('variations'.tr, style: robotoRegular),
-                            Text(
-                              '(+) ${PriceConverter.convertPrice(cartController.variationPrice)}',
-                              style: robotoRegular, textDirection: TextDirection.ltr,
-                            ),
-                          ],
-                        ) : const SizedBox(),
+                        // cartController.variationPrice > 0 && ModuleHelper.getModuleConfig(cartController.cartList.first.item!.moduleType).newVariation! ? Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Text('variations'.tr, style: robotoRegular),
+                        //     Text(
+                        //       '(+) ${PriceConverter.convertPrice(cartController.variationPrice)}',
+                        //       style: robotoRegular, textDirection: TextDirection.ltr,
+                        //     ),
+                        //   ],
+                        // ) : const SizedBox(),
                         const SizedBox(height: Dimensions.paddingSizeSmall),
 
                         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -339,8 +336,9 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ) : const SizedBox(),
 
-            !ResponsiveHelper.isDesktop(context) && Get.find<SplashController>().getModuleConfig(item.moduleType).newVariation!
-            && (storeController.store != null && storeController.store!.cutlery!) ? Padding(
+            // !ResponsiveHelper.isDesktop(context) && Get.find<SplashController>().getModuleConfig(item.moduleType).newVariation!
+            // && (storeController.store != null && storeController.store!.cutlery!) ?
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
               child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 Image.asset(Images.cutlery, height: 18, width: 18),
@@ -368,7 +366,8 @@ class _CartScreenState extends State<CartScreen> {
                 )
 
               ]),
-            ) : const SizedBox(),
+            ),
+                // : const SizedBox(),
 
             ResponsiveHelper.isDesktop(context) ? const SizedBox() : Container(
               decoration: BoxDecoration(
@@ -420,13 +419,13 @@ class _CartScreenState extends State<CartScreen> {
                 ]),
                 SizedBox(height: cartController.variationPrice > 0 ? Dimensions.paddingSizeSmall : 0),
 
-                Get.find<SplashController>().getModuleConfig(item.moduleType).newVariation! && cartController.variationPrice > 0 ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('variations'.tr, style: robotoRegular),
-                    Text('(+) ${PriceConverter.convertPrice(cartController.variationPrice)}', style: robotoRegular, textDirection: TextDirection.ltr),
-                  ],
-                ) : const SizedBox(),
+                // Get.find<SplashController>().getModuleConfig(item.moduleType).newVariation! && cartController.variationPrice > 0 ? Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text('variations'.tr, style: robotoRegular),
+                //     Text('(+) ${PriceConverter.convertPrice(cartController.variationPrice)}', style: robotoRegular, textDirection: TextDirection.ltr),
+                //   ],
+                // ) : const SizedBox(),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
 
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -590,8 +589,9 @@ class CheckoutButton extends StatelessWidget {
                 ),
               ),
 
-              ResponsiveHelper.isDesktop(context) && Get.find<SplashController>().getModuleConfig(cartController.cartList[0].item!.moduleType).newVariation!
-              && (storeController.store != null && storeController.store!.cutlery!) ? Padding(
+              // ResponsiveHelper.isDesktop(context) && Get.find<SplashController>().getModuleConfig(cartController.cartList[0].item!.moduleType).newVariation!
+              // && (storeController.store != null && storeController.store!.cutlery!) ?
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                 child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                   Image.asset(Images.cutlery, height: 18, width: 18),
@@ -618,7 +618,8 @@ class CheckoutButton extends StatelessWidget {
                     ),
                   )
                 ]),
-              ) : const SizedBox(),
+              ) ,
+                  // : const SizedBox(),
               ResponsiveHelper.isDesktop(context) ? const SizedBox(height: Dimensions.paddingSizeSmall) : const SizedBox(),
 
               !ResponsiveHelper.isDesktop(context) ? const SizedBox() :
@@ -670,25 +671,25 @@ class CheckoutButton extends StatelessWidget {
                   isBold:  ResponsiveHelper.isDesktop(context) ? false : true,
                   radius: ResponsiveHelper.isDesktop(context) ? Dimensions.radiusSmall : Dimensions.radiusDefault,
                   onPressed: () {
-                  if(!cartController.cartList.first.item!.scheduleOrder! && availableList.contains(false)) {
-                    showCustomSnackBar('one_or_more_product_unavailable'.tr);
-                  } /*else if(AuthHelper.isGuestLoggedIn() && !Get.find<SplashController>().configModel!.guestCheckoutStatus!) {
-                    showCustomSnackBar('currently_your_zone_have_no_permission_to_place_any_order'.tr);
-                  }*/ else {
-                    if(Get.find<SplashController>().module == null) {
-                      int i = 0;
-                      for(i = 0; i < Get.find<SplashController>().moduleList!.length; i++){
-                        if(cartController.cartList[0].item!.moduleId == Get.find<SplashController>().moduleList![i].id){
-                          break;
-                        }
-                      }
-                      Get.find<SplashController>().setModule(Get.find<SplashController>().moduleList![i]);
-                      HomeScreen.loadData(true);
-                    }
-                    Get.find<CouponController>().removeCouponData(false);
-
-                    Get.toNamed(RouteHelper.getCheckoutRoute('cart'));
-                  }
+                  // if(!cartController.cartList.first.item!.scheduleOrder! && availableList.contains(false)) {
+                  //   showCustomSnackBar('one_or_more_product_unavailable'.tr);
+                  // } /*else if(AuthHelper.isGuestLoggedIn() && !Get.find<SplashController>().configModel!.guestCheckoutStatus!) {
+                  //   showCustomSnackBar('currently_your_zone_have_no_permission_to_place_any_order'.tr);
+                  // }*/ else {
+                  //   if(Get.find<SplashController>().module == null) {
+                  //     int i = 0;
+                  //     for(i = 0; i < Get.find<SplashController>().moduleList!.length; i++){
+                  //       if(cartController.cartList[0].item!.moduleId == Get.find<SplashController>().moduleList![i].id){
+                  //         break;
+                  //       }
+                  //     }
+                  //     Get.find<SplashController>().setModule(Get.find<SplashController>().moduleList![i]);
+                  //     HomeScreen.loadData(true);
+                  //   }
+                  //   Get.find<CouponController>().removeCouponData(false);
+                  //
+                  //   Get.toNamed(RouteHelper.getCheckoutRoute('cart'));
+                  // }
                 }),
               ),
             ],

@@ -1,18 +1,12 @@
-import 'package:sixam_mart/common/widgets/corner_banner/banner.dart';
-import 'package:sixam_mart/common/widgets/corner_banner/corner_discount_tag.dart';
 import 'package:sixam_mart/common/widgets/title_widget.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
-import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
-import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
-import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
-import 'package:sixam_mart/common/widgets/not_available_widget.dart';
 import 'package:sixam_mart/common/widgets/organic_tag.dart';
 import 'package:sixam_mart/common/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
@@ -77,9 +71,9 @@ class PopularItemView extends StatelessWidget {
                                 ),
                               ),
 
-                              OrganicTag(item: itemList[index], placeInImage: true),
+                              // OrganicTag(item: itemList[index], placeInImage: true),
 
-                              itemController.isAvailable(itemList[index]) ? const SizedBox() : const NotAvailableWidget(),
+                              // itemController.isAvailable(itemList[index]) ? const SizedBox() : const NotAvailableWidget(),
                             ]),
 
                             Expanded(
@@ -90,7 +84,7 @@ class PopularItemView extends StatelessWidget {
                                     Row(children: [
                                       Expanded(
                                         child: Text(
-                                          itemList[index].name!,
+                                          itemList[index].title!,
                                           style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                           maxLines: 1, overflow: TextOverflow.ellipsis,
                                         ),
@@ -99,50 +93,50 @@ class PopularItemView extends StatelessWidget {
                                     ]),
                                     const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                                    (Get.find<SplashController>().configModel!.moduleConfig!.module!.vegNonVeg! && Get.find<SplashController>().configModel!.toggleVegNonVeg!)
-                                        ? Image.asset(itemList[index].veg == 0 ? Images.nonVegImage : Images.vegImage,
-                                        height: 10, width: 10, fit: BoxFit.contain) : const SizedBox(),
+                                    // (Get.find<SplashController>().configModel!.moduleConfig!.module!.vegNonVeg! && Get.find<SplashController>().configModel!.toggleVegNonVeg!)
+                                    //     ? Image.asset(itemList[index].veg == 0 ? Images.nonVegImage : Images.vegImage,
+                                    //     height: 10, width: 10, fit: BoxFit.contain) : const SizedBox(),
                                   ]),
                                   const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
                                   Text(
-                                    itemList[index].storeName!,
+                                    itemList[index].title!,
                                     style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                                     maxLines: 1, overflow: TextOverflow.ellipsis,
                                   ),
 
-                                  RatingBar(
-                                    rating: itemList[index].avgRating, size: 12,
-                                    ratingCount: itemList[index].ratingCount,
-                                  ),
+                                  // RatingBar(
+                                  //   rating: itemList[index].avgRating, size: 12,
+                                  //   ratingCount: itemList[index].ratingCount,
+                                  // ),
 
-                                  (Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! && itemList[index].unitType != null) ? Text(
-                                    '(${ itemList[index].unitType ?? ''})',
-                                    style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).hintColor),
-                                  ) : const SizedBox(),
+                                  // (Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! && itemList[index].unitType != null) ? Text(
+                                  //   '(${ itemList[index].unitType ?? ''})',
+                                  //   style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).hintColor),
+                                  // ) : const SizedBox(),
 
-                                  Row(children: [
-                                    Expanded(
-                                      child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                                        Text(
-                                          PriceConverter.convertPrice(
-                                            itemController.getStartingPrice(itemList[index]),
-                                            discount: itemList[index].discount,
-                                            discountType: itemList[index].discountType,
-                                          ), textDirection: TextDirection.ltr,
-                                          style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall),
-                                        ),
-                                        SizedBox(width: itemList[index].discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
-                                        itemList[index].discount! > 0  ? Flexible(child: Text(
-                                          PriceConverter.convertPrice(itemController.getStartingPrice(itemList[index])),
-                                          style: robotoMedium.copyWith(
-                                            fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
-                                            decoration: TextDecoration.lineThrough,
-                                          ), textDirection: TextDirection.ltr,
-                                        )) : const SizedBox(),
-                                      ]),
-                                    ),
-                                    const Icon(Icons.add, size: 20),
+                                  const Row(children: [
+                                    // Expanded(
+                                    //   child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                                    //     // Text(
+                                    //     //   PriceConverter.convertPrice(
+                                    //     //     itemController.getStartingPrice(itemList[index]),
+                                    //     //     discount: itemList[index].discount,
+                                    //     //     discountType: itemList[index].discountType,
+                                    //     //   ), textDirection: TextDirection.ltr,
+                                    //     //   style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                    //     // ),
+                                    //     SizedBox(width: itemList[index].discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
+                                    //     itemList[index].discount! > 0  ? Flexible(child: Text(
+                                    //       PriceConverter.convertPrice(itemController.getStartingPrice(itemList[index])),
+                                    //       style: robotoMedium.copyWith(
+                                    //         fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor,
+                                    //         decoration: TextDecoration.lineThrough,
+                                    //       ), textDirection: TextDirection.ltr,
+                                    //     )) : const SizedBox(),
+                                    //   ]),
+                                    // ),
+                                    Icon(Icons.add, size: 20),
                                   ]),
                                 ]),
                               ),
@@ -151,16 +145,16 @@ class PopularItemView extends StatelessWidget {
                           ]),
                         ),
 
-                        Positioned(
-                          right: Get.find<LocalizationController>().isLtr ? 0 : null, left: Get.find<LocalizationController>().isLtr ? null : 0,
-                          child: CornerDiscountTag(
-                            bannerPosition: Get.find<LocalizationController>().isLtr ? CornerBannerPosition.topRight : CornerBannerPosition.topLeft,
-                            elevation: 0,
-                            discount: itemController.getDiscount(itemList[index]),
-                            discountType: itemController.getDiscountType(itemList[index]),
-                          ),
-
-                        ),
+                        // Positioned(
+                        //   right: Get.find<LocalizationController>().isLtr ? 0 : null, left: Get.find<LocalizationController>().isLtr ? null : 0,
+                        //   child: CornerDiscountTag(
+                        //     bannerPosition: Get.find<LocalizationController>().isLtr ? CornerBannerPosition.topRight : CornerBannerPosition.topLeft,
+                        //     elevation: 0,
+                        //     discount: itemController.getDiscount(itemList[index]),
+                        //     discountType: itemController.getDiscountType(itemList[index]),
+                        //   ),
+                        //
+                        // ),
                       ],
                     ),
                   ),

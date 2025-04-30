@@ -94,7 +94,7 @@ class StoreDescriptionViewWidget extends StatelessWidget {
                   child: Center(
                     child: Row(
                       children: [
-                        Icon(isWished ? Icons.favorite : Icons.favorite_border, color: Colors.white, size: 14),
+                        // Icon(isWished ? Icons.favorite : Icons.favorite_border, color: Colors.white, size: 14),
                         const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                         Text('wish_list'.tr, style: robotoRegular.copyWith(fontWeight: FontWeight.w200, color: Colors.white, fontSize: Dimensions.fontSizeSmall)),
                       ],

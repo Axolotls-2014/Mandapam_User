@@ -28,9 +28,20 @@ class AuthRepository implements AuthRepositoryInterface{
 
   @override
   Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
-    Response response = await apiClient.postData(AppConstants.registerUri, signUpBody.toJson(), handleError: false);
+    Response response = await apiClient.postData(
+        AppConstants.registerUri,
+        signUpBody.toJson(),
+        handleError: false
+    );
+
     if (response.statusCode == 200) {
-      return ResponseModel(true, response.body["token"]);
+      Map<String, dynamic> responseData = response.body;
+
+      if (responseData.containsKey("user_id")) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("user_id", responseData["user_id"].toString());
+      }
+      return ResponseModel(true, responseData["token"]);
     } else {
       return ResponseModel(false, response.statusText);
     }
@@ -40,16 +51,36 @@ class AuthRepository implements AuthRepositoryInterface{
   Future<Response> login({String? phone, String? password}) async {
     String guestId = getSharedPrefGuestId();
     String? deviceToken = await saveDeviceToken();
+
     Map<String, String> data = {
       "phone": phone!,
       "password": password!,
       "cm_firebase_token": deviceToken!,
+      "usertype": "User",
     };
-    if(guestId.isNotEmpty) {
+
+    if (guestId.isNotEmpty) {
       data.addAll({"guest_id": guestId});
     }
-    return await apiClient.postData(AppConstants.loginUri, data, handleError: false);
+
+    Response response = await apiClient.postData(AppConstants.loginUri, data, handleError: false);
+
+    if (response.statusCode == 200 && response.body != null) {
+      Map<String, dynamic> responseData = response.body;
+
+      if (responseData.containsKey("user_id")) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("user_id", responseData["user_id"].toString());
+      }
+    }
+    return response;
   }
+
+  Future<String?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("user_id");
+  }
+
 
   @override
   Future<ResponseModel> guestLogin() async {

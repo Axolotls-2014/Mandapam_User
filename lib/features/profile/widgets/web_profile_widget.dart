@@ -159,9 +159,9 @@ class WebProfileWidget extends StatelessWidget {
               childAspectRatio: 9,
               children: <Widget>[
 
-                ProfileButtonWidget(icon: Icons.tonality_outlined, title: 'dark_mode'.tr, isButtonActive: Get.isDarkMode, onTap: () {
-                  Get.find<ThemeController>().toggleTheme();
-                }),
+                // ProfileButtonWidget(icon: Icons.tonality_outlined, title: 'dark_mode'.tr, isButtonActive: Get.isDarkMode, onTap: () {
+                //   Get.find<ThemeController>().toggleTheme();
+                // }),
 
                 isLoggedIn ? GetBuilder<AuthController>(builder: (authController) {
                   return ProfileButtonWidget(

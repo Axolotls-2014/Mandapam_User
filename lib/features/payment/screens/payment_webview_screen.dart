@@ -1,10 +1,8 @@
-import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
-import 'package:sixam_mart/features/order/controllers/order_controller.dart';
 import 'package:sixam_mart/features/order/domain/models/order_model.dart';
 import 'package:sixam_mart/features/location/domain/models/zone_response_model.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
@@ -12,7 +10,6 @@ import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/common/widgets/custom_app_bar.dart';
 import 'package:sixam_mart/features/checkout/widgets/payment_failed_dialog.dart';
 import 'package:sixam_mart/features/wallet/widgets/fund_payment_dialog_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PaymentWebViewScreen extends StatefulWidget {
   final OrderModel orderModel;
@@ -33,7 +30,7 @@ class PaymentWebViewScreen extends StatefulWidget {
 
 class PaymentScreenState extends State<PaymentWebViewScreen> {
   late String selectedUrl;
-  bool _isLoading = true;
+  final bool _isLoading = true;
   final bool _canRedirect = true;
   double? _maximumCodOrderAmount;
   PullToRefreshController? pullToRefreshController;
@@ -90,67 +87,67 @@ class PaymentScreenState extends State<PaymentWebViewScreen> {
         appBar: CustomAppBar(title: '', onBackPressed: () => _exitApp(), backButton: true),
         body: Stack(
           children: [
-            InAppWebView(
-              initialUrlRequest: URLRequest(url: Uri.parse(selectedUrl)),
-              initialUserScripts: UnmodifiableListView<UserScript>([]),
-              pullToRefreshController: pullToRefreshController,
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform: InAppWebViewOptions(
-                  useShouldOverrideUrlLoading: true,
-                  mediaPlaybackRequiresUserGesture: false,
-                ),
-                android: AndroidInAppWebViewOptions(useHybridComposition: true),
-                ios: IOSInAppWebViewOptions(allowsInlineMediaPlayback: true),
-              ),
-              onWebViewCreated: (controller) async {
-                webViewController = controller;
-              },
-              onLoadStart: (controller, url) async {
-                Get.find<OrderController>().paymentRedirect(
-                  url: url.toString(), canRedirect: _canRedirect, onClose: (){} ,
-                  addFundUrl: widget.addFundUrl, orderID: widget.orderModel.id.toString(), contactNumber: widget.contactNumber,
-                  subscriptionUrl: widget.subscriptionUrl, storeId: widget.storeId, createAccount: widget.createAccount!,
-                  guestId: widget.guestId,
-                );
-                setState(() {
-                  _isLoading = true;
-                });
-              },
-              shouldOverrideUrlLoading: (controller, navigationAction) async {
-                Uri uri = navigationAction.request.url!;
-                if (!["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {
-                  if (await canLaunchUrl(uri)) {
-                    await launchUrl(uri, mode: LaunchMode.externalApplication);
-                    return NavigationActionPolicy.CANCEL;
-                  }
-                }
-                return NavigationActionPolicy.ALLOW;
-              },
-              onLoadStop: (controller, url) async {
-                pullToRefreshController?.endRefreshing();
-                setState(() {
-                  _isLoading = false;
-                });
-                Get.find<OrderController>().paymentRedirect(
-                  url: url.toString(), canRedirect: _canRedirect, onClose: (){} ,
-                  addFundUrl: widget.addFundUrl, orderID: widget.orderModel.id.toString(), contactNumber: widget.contactNumber,
-                  subscriptionUrl: widget.subscriptionUrl, storeId: widget.storeId, createAccount: widget.createAccount!,
-                  guestId: widget.guestId,
-                );
-                // _redirect(url.toString());
-              },
-              onProgressChanged: (controller, progress) {
-                if (progress == 100) {
-                  pullToRefreshController?.endRefreshing();
-                }
-                // setState(() {
-                //   _value = progress / 100;
-                // });
-              },
-              onConsoleMessage: (controller, consoleMessage) {
-                debugPrint(consoleMessage.message);
-              },
-            ),
+            // InAppWebView(
+            //   initialUrlRequest: URLRequest(url: Uri.parse(selectedUrl)),
+            //   initialUserScripts: UnmodifiableListView<UserScript>([]),
+            //   pullToRefreshController: pullToRefreshController,
+            //   initialOptions: InAppWebViewGroupOptions(
+            //     crossPlatform: InAppWebViewOptions(
+            //       useShouldOverrideUrlLoading: true,
+            //       mediaPlaybackRequiresUserGesture: false,
+            //     ),
+            //     android: AndroidInAppWebViewOptions(useHybridComposition: true),
+            //     ios: IOSInAppWebViewOptions(allowsInlineMediaPlayback: true),
+            //   ),
+            //   onWebViewCreated: (controller) async {
+            //     webViewController = controller;
+            //   },
+            //   onLoadStart: (controller, url) async {
+            //     Get.find<OrderController>().paymentRedirect(
+            //       url: url.toString(), canRedirect: _canRedirect, onClose: (){} ,
+            //       addFundUrl: widget.addFundUrl, orderID: widget.orderModel.id.toString(), contactNumber: widget.contactNumber,
+            //       subscriptionUrl: widget.subscriptionUrl, storeId: widget.storeId, createAccount: widget.createAccount!,
+            //       guestId: widget.guestId,
+            //     );
+            //     setState(() {
+            //       _isLoading = true;
+            //     });
+            //   },
+            //   shouldOverrideUrlLoading: (controller, navigationAction) async {
+            //     Uri uri = navigationAction.request.url!;
+            //     if (!["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {
+            //       if (await canLaunchUrl(uri)) {
+            //         await launchUrl(uri, mode: LaunchMode.externalApplication);
+            //         return NavigationActionPolicy.CANCEL;
+            //       }
+            //     }
+            //     return NavigationActionPolicy.ALLOW;
+            //   },
+            //   onLoadStop: (controller, url) async {
+            //     pullToRefreshController?.endRefreshing();
+            //     setState(() {
+            //       _isLoading = false;
+            //     });
+            //     Get.find<OrderController>().paymentRedirect(
+            //       url: url.toString(), canRedirect: _canRedirect, onClose: (){} ,
+            //       addFundUrl: widget.addFundUrl, orderID: widget.orderModel.id.toString(), contactNumber: widget.contactNumber,
+            //       subscriptionUrl: widget.subscriptionUrl, storeId: widget.storeId, createAccount: widget.createAccount!,
+            //       guestId: widget.guestId,
+            //     );
+            //     // _redirect(url.toString());
+            //   },
+            //   onProgressChanged: (controller, progress) {
+            //     if (progress == 100) {
+            //       pullToRefreshController?.endRefreshing();
+            //     }
+            //     // setState(() {
+            //     //   _value = progress / 100;
+            //     // });
+            //   },
+            //   onConsoleMessage: (controller, consoleMessage) {
+            //     debugPrint(consoleMessage.message);
+            //   },
+            // ),
             _isLoading ? Center(
               child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
             ) : const SizedBox.shrink(),

@@ -58,25 +58,25 @@ class _WebFeaturedCategoriesViewWidgetState extends State<WebFeaturedCategoriesV
           List<Categories> categoryList = [];
           List<Item>? products = [];
           categoryList.add(Categories(id: 0, name: 'all'.tr));
-          if(itemController.featuredCategoriesItem != null) {
-            for(Categories category in itemController.featuredCategoriesItem!.categories!) {
-              categoryList.add(category);
-            }
-            for (Item product in itemController.featuredCategoriesItem!.items!) {
-              if(itemController.selectedCategory == 0) {
-                products.add(product);
-              }
-              if(categoryList[itemController.selectedCategory].id == product.categoryId){
-                products.add(product);
-              }
-            }
-          }
-
-
-          if(products.length >= 6 && isFirstTime){
-            showForwardButton = true;
-            isFirstTime = false;
-          }
+          // if(itemController.featuredCategoriesItem != null) {
+          //   for(Categories category in itemController.featuredCategoriesItem!.categories!) {
+          //     categoryList.add(category);
+          //   }
+          //   for (Item product in itemController.featuredCategoriesItem!.items!) {
+          //     if(itemController.selectedCategory == 0) {
+          //       products.add(product);
+          //     }
+          //     if(categoryList[itemController.selectedCategory].id == product.categoryId){
+          //       products.add(product);
+          //     }
+          //   }
+          // }
+          //
+          //
+          // if(products.length >= 6 && isFirstTime){
+          //   showForwardButton = true;
+          //   isFirstTime = false;
+          // }
 
           return itemController.featuredCategoriesItem != null ? itemController.featuredCategoriesItem!.items!.isNotEmpty ? Padding(
             padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),

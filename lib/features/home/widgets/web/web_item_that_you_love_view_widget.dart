@@ -6,13 +6,11 @@ import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/home/widgets/components/item_that_you_love_card_widget.dart';
-import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
-import 'package:sixam_mart/common/widgets/discount_tag.dart';
 import 'package:sixam_mart/common/widgets/hover/on_hover.dart';
 import 'package:sixam_mart/features/home/widgets/web/widgets/arrow_icon_button.dart';
 
@@ -99,10 +97,10 @@ class _WebItemThatYouLoveViewWidgetState extends State<WebItemThatYouLoveViewWid
                                   item: Item(id: recommendItems[index].id),
                                 ),
 
-                                DiscountTag(
-                                  discount: Get.find<ItemController>().getDiscount(recommendItems[index]),
-                                  discountType: Get.find<ItemController>().getDiscountType(recommendItems[index]),
-                                ),
+                                // DiscountTag(
+                                //   discount: Get.find<ItemController>().getDiscount(recommendItems[index]),
+                                //   discountType: Get.find<ItemController>().getDiscountType(recommendItems[index]),
+                                // ),
 
                                 Positioned(
                                   bottom: 0, left: 0, right: 0,
@@ -119,36 +117,36 @@ class _WebItemThatYouLoveViewWidgetState extends State<WebItemThatYouLoveViewWid
                                             boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1.2))],
                                           ),
                                           child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                            Text(recommendItems[index].name!, style: robotoBold, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                            Text(recommendItems[index].title!, style: robotoBold, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                            //
+                                            // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                            //   Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
+                                            //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                            //   Text(recommendItems[index].avgRating!.toStringAsFixed(1), style: robotoRegular),
+                                            //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                            //   Text("(${recommendItems[index].ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+                                            // ]),
 
-                                            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                              Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
-                                              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                                              Text(recommendItems[index].avgRating!.toStringAsFixed(1), style: robotoRegular),
-                                              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                                              Text("(${recommendItems[index].ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
-                                            ]),
 
-
-                                            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                              recommendItems[index].discount! > 0  ? Flexible(child: Text(
-                                                  PriceConverter.convertPrice(
-                                                    Get.find<ItemController>().getStartingPrice(recommendItems[index]),
-                                                  ),
-                                                  style: robotoRegular.copyWith(
-                                                    fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough,
-                                                  ))) : const SizedBox(),
-                                              SizedBox(width: recommendItems[index].discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
-
-                                              Text(
-                                                PriceConverter.convertPrice(
-                                                  Get.find<ItemController>().getStartingPrice(recommendItems[index]),
-                                                  discount: recommendItems[index].discount,
-                                                  discountType: recommendItems[index].discountType,
-                                                ),
-                                                style: robotoMedium, textDirection: TextDirection.ltr,
-                                              ),
-                                            ]),
+                                            // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                            //   recommendItems[index].discount! > 0  ? Flexible(child: Text(
+                                            //       PriceConverter.convertPrice(
+                                            //         Get.find<ItemController>().getStartingPrice(recommendItems[index]),
+                                            //       ),
+                                            //       style: robotoRegular.copyWith(
+                                            //         fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough,
+                                            //       ))) : const SizedBox(),
+                                            //   SizedBox(width: recommendItems[index].discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
+                                            //
+                                            //   Text(
+                                            //     PriceConverter.convertPrice(
+                                            //       Get.find<ItemController>().getStartingPrice(recommendItems[index]),
+                                            //       discount: recommendItems[index].discount,
+                                            //       discountType: recommendItems[index].discountType,
+                                            //     ),
+                                            //     style: robotoMedium, textDirection: TextDirection.ltr,
+                                            //   ),
+                                            // ]),
                                           ],
                                           ),
                                         ),
@@ -291,10 +289,10 @@ class _WebItemThatYouLoveForShopState extends State<WebItemThatYouLoveForShop> {
                                 item: Item(id: recommendItems[index].id),
                               ),
 
-                              DiscountTag(
-                                discount: Get.find<ItemController>().getDiscount(recommendItems[index]),
-                                discountType: Get.find<ItemController>().getDiscountType(recommendItems[index]),
-                              ),
+                              // DiscountTag(
+                              //   discount: Get.find<ItemController>().getDiscount(recommendItems[index]),
+                              //   discountType: Get.find<ItemController>().getDiscountType(recommendItems[index]),
+                              // ),
 
                               Positioned(
                                 bottom: 0, left: 0, right: 0,
@@ -311,36 +309,36 @@ class _WebItemThatYouLoveForShopState extends State<WebItemThatYouLoveForShop> {
                                           boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1.2))],
                                         ),
                                         child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                          Text(recommendItems[index].name!, style: robotoBold, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                          Text(recommendItems[index].title!, style: robotoBold, maxLines: 1, overflow: TextOverflow.ellipsis),
 
-                                          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                            Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
-                                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                                            Text(recommendItems[index].avgRating!.toStringAsFixed(1), style: robotoRegular),
-                                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                                            Text("(${recommendItems[index].ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
-                                          ]),
+                                          // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                          //   Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
+                                          //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                          //   Text(recommendItems[index].avgRating!.toStringAsFixed(1), style: robotoRegular),
+                                          //   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                          //   Text("(${recommendItems[index].ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+                                          // ]),
 
 
-                                          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                            recommendItems[index].discount! > 0  ? Flexible(child: Text(
-                                                PriceConverter.convertPrice(
-                                                  Get.find<ItemController>().getStartingPrice(recommendItems[index]),
-                                                ),
-                                                style: robotoRegular.copyWith(
-                                                  fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough,
-                                                ))) : const SizedBox(),
-                                            SizedBox(width: recommendItems[index].discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
-
-                                            Text(
-                                              PriceConverter.convertPrice(
-                                                Get.find<ItemController>().getStartingPrice(recommendItems[index]),
-                                                discount: recommendItems[index].discount,
-                                                discountType: recommendItems[index].discountType,
-                                              ),
-                                              style: robotoMedium, textDirection: TextDirection.ltr,
-                                            ),
-                                          ]),
+                                          // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                          //   recommendItems[index].discount! > 0  ? Flexible(child: Text(
+                                          //       PriceConverter.convertPrice(
+                                          //         Get.find<ItemController>().getStartingPrice(recommendItems[index]),
+                                          //       ),
+                                          //       style: robotoRegular.copyWith(
+                                          //         fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor, decoration: TextDecoration.lineThrough,
+                                          //       ))) : const SizedBox(),
+                                          //   SizedBox(width: recommendItems[index].discount! > 0 ? Dimensions.paddingSizeExtraSmall : 0),
+                                          //
+                                          //   Text(
+                                          //     PriceConverter.convertPrice(
+                                          //       Get.find<ItemController>().getStartingPrice(recommendItems[index]),
+                                          //       discount: recommendItems[index].discount,
+                                          //       discountType: recommendItems[index].discountType,
+                                          //     ),
+                                          //     style: robotoMedium, textDirection: TextDirection.ltr,
+                                          //   ),
+                                          // ]),
                                         ],
                                         ),
                                       ),

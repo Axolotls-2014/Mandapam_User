@@ -57,7 +57,7 @@ class FavouriteScreenState extends State<FavouriteScreen> with SingleTickerProvi
               isScrollable: ResponsiveHelper.isDesktop(context) ? true : false,
               controller: _tabController,
               indicatorColor: Theme.of(context).primaryColor,
-              indicatorWeight: 3,
+              indicatorWeight: 1,
               labelColor: Theme.of(context).primaryColor,
               unselectedLabelColor: Theme.of(context).disabledColor,
               unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),

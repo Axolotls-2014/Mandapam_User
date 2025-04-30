@@ -38,7 +38,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
       appBar: CustomAppBar(title: widget.fromPasswordChange ? 'change_password'.tr : 'reset_password'.tr),
-      endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
+      // endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
       body: SafeArea(child: Center(child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: FooterView(child: Container(

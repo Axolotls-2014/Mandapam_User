@@ -2,13 +2,10 @@ import 'package:sixam_mart/common/widgets/title_widget.dart';
 import 'package:sixam_mart/features/item/controllers/campaign_controller.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
-import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
-import 'package:sixam_mart/common/widgets/discount_tag.dart';
-import 'package:sixam_mart/common/widgets/not_available_widget.dart';
 import 'package:sixam_mart/common/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -63,15 +60,15 @@ class ItemCampaignView extends StatelessWidget {
                               height: 90, width: 130, fit: BoxFit.cover,
                             ),
                           ),
-                          DiscountTag(
-                            discount: campaignController.itemCampaignList![index].storeDiscount! > 0
-                                ? campaignController.itemCampaignList![index].storeDiscount
-                                : campaignController.itemCampaignList![index].discount,
-                            discountType: campaignController.itemCampaignList![index].storeDiscount! > 0 ? 'percent'
-                                : campaignController.itemCampaignList![index].discountType,
-                          ),
-                          Get.find<ItemController>().isAvailable(campaignController.itemCampaignList![index])
-                              ? const SizedBox() : const NotAvailableWidget(),
+                          // DiscountTag(
+                          //   discount: campaignController.itemCampaignList![index].storeDiscount! > 0
+                          //       ? campaignController.itemCampaignList![index].storeDiscount
+                          //       : campaignController.itemCampaignList![index].discount,
+                          //   discountType: campaignController.itemCampaignList![index].storeDiscount! > 0 ? 'percent'
+                          //       : campaignController.itemCampaignList![index].discountType,
+                          // ),
+                          // Get.find<ItemController>().isAvailable(campaignController.itemCampaignList![index])
+                          //     ? const SizedBox() : const NotAvailableWidget(),
                         ]),
 
                         Expanded(
@@ -79,14 +76,14 @@ class ItemCampaignView extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                               Text(
-                                campaignController.itemCampaignList![index].name!,
+                                campaignController.itemCampaignList![index].title!,
                                 style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 2),
 
                               Text(
-                                campaignController.itemCampaignList![index].storeName!,
+                                campaignController.itemCampaignList![index].title!,
                                 style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                                 maxLines: 1, overflow: TextOverflow.ellipsis,
                               ),
@@ -94,17 +91,17 @@ class ItemCampaignView extends StatelessWidget {
 
                               Row(
                                 children: [
-                                  Expanded(
-                                    child: Text(
-                                      PriceConverter.convertPrice(campaignController.itemCampaignList![index].price),
-                                      style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall), textDirection: TextDirection.ltr,
-                                    ),
-                                  ),
+                                  // Expanded(
+                                  //   child: Text(
+                                  //     PriceConverter.convertPrice(campaignController.itemCampaignList![index].price),
+                                  //     style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall), textDirection: TextDirection.ltr,
+                                  //   ),
+                                  // ),
                                   Icon(Icons.star, color: Theme.of(context).primaryColor, size: 12),
-                                  Text(
-                                    campaignController.itemCampaignList![index].avgRating!.toStringAsFixed(1),
-                                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor),
-                                  ),
+                                  // Text(
+                                  //   campaignController.itemCampaignList![index].avgRating!.toStringAsFixed(1),
+                                  //   style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor),
+                                  // ),
                                 ],
                               ),
                             ]),

@@ -65,7 +65,7 @@ class SearchResultWidgetState extends State<SearchResultWidget> with TickerProvi
                 List<double?> prices = [];
                 if(!Get.find<search.SearchController>().isStore) {
                   for (var product in Get.find<search.SearchController>().allItemList!) {
-                    prices.add(product.price);
+                    // prices.add(product.price);
                   }
                   prices.sort();
                 }

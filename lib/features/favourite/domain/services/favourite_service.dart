@@ -31,9 +31,9 @@ class FavouriteService implements FavouriteServiceInterface {
     for (var zone in AddressHelper.getUserAddressFromSharedPref()!.zoneData!) {
       for (var module in zone.modules!) {
         if(module.id == item.moduleId){
-          if(module.pivot!.zoneId == item.zoneId){
-            wishItemList.add(item);
-          }
+          // if(module.pivot!.zoneId == item.zoneId){
+          //   wishItemList.add(item);
+          // }
         }
       }
     }
@@ -46,9 +46,9 @@ class FavouriteService implements FavouriteServiceInterface {
     for (var zone in AddressHelper.getUserAddressFromSharedPref()!.zoneData!) {
       for (var module in zone.modules!) {
         if(module.id == item.moduleId){
-          if(module.pivot!.zoneId == item.zoneId){
-            wishItemIdList.add(item.id);
-          }
+          // if(module.pivot!.zoneId == item.zoneId){
+          //   wishItemIdList.add(item.id);
+          // }
         }
       }
     }

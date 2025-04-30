@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
@@ -46,6 +47,30 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
+  // Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
+  //   _isLoading = true;
+  //   update();
+  //   ResponseModel responseModel = await authServiceInterface.registration(signUpBody, Get.find<SplashController>().configModel!.customerVerification!);
+  //   if (responseModel.isSuccess && !Get.find<SplashController>().configModel!.customerVerification!) {
+  //     Get.find<ProfileController>().getUserInfo();
+  //   }
+  //   _isLoading = false;
+  //   update();
+  //   return responseModel;
+  // }
+  //
+  // Future<ResponseModel> login(String? phone, String password) async {
+  //   _isLoading = true;
+  //   update();
+  //   ResponseModel responseModel = await authServiceInterface.login(phone: phone, password: password, isCustomerVerificationOn: Get.find<SplashController>().configModel!.customerVerification!);
+  //   if (responseModel.isSuccess && !Get.find<SplashController>().configModel!.customerVerification! && responseModel.isPhoneVerified!) {
+  //     Get.find<ProfileController>().getUserInfo();
+  //   }
+  //   _isLoading = false;
+  //   update();
+  //   return responseModel;
+  // }
+
   Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
     _isLoading = true;
     update();
@@ -68,6 +93,12 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = false;
     update();
     return responseModel;
+  }
+
+  @override
+  Future<String?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("user_id");
   }
 
   Future<ResponseModel> guestLogin() async {
