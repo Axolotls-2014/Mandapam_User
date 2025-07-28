@@ -47,30 +47,6 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
-  // Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
-  //   _isLoading = true;
-  //   update();
-  //   ResponseModel responseModel = await authServiceInterface.registration(signUpBody, Get.find<SplashController>().configModel!.customerVerification!);
-  //   if (responseModel.isSuccess && !Get.find<SplashController>().configModel!.customerVerification!) {
-  //     Get.find<ProfileController>().getUserInfo();
-  //   }
-  //   _isLoading = false;
-  //   update();
-  //   return responseModel;
-  // }
-  //
-  // Future<ResponseModel> login(String? phone, String password) async {
-  //   _isLoading = true;
-  //   update();
-  //   ResponseModel responseModel = await authServiceInterface.login(phone: phone, password: password, isCustomerVerificationOn: Get.find<SplashController>().configModel!.customerVerification!);
-  //   if (responseModel.isSuccess && !Get.find<SplashController>().configModel!.customerVerification! && responseModel.isPhoneVerified!) {
-  //     Get.find<ProfileController>().getUserInfo();
-  //   }
-  //   _isLoading = false;
-  //   update();
-  //   return responseModel;
-  // }
-
   Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
     _isLoading = true;
     update();

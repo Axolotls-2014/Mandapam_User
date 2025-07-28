@@ -200,10 +200,10 @@ class SplashController extends GetxController implements GetxService {
   void switchModule(int index, bool fromPhone) async {
     if (_module == null || _module!.id != _moduleList![index].id) {
       await Get.find<SplashController>().setModule(_moduleList![index]);
-      Get.find<CartController>().getCartDataOnline();
+      // Get.find<CartController>().getCartDataOnline();
       if (AuthHelper.isLoggedIn()) {
         Get.find<HomeController>().getCashBackOfferList();
-        await _showInterestPage();
+        // await _showInterestPage();
       }
       HomeScreen.loadData(true, fromModule: true);
     }

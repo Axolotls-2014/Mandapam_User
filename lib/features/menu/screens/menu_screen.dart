@@ -33,7 +33,7 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).cardColor,
+      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
       body: GetBuilder<ProfileController>(builder: (profileController) {
         final bool isLoggedIn = AuthHelper.isLoggedIn();
 
@@ -99,7 +99,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
           Expanded(child: SingleChildScrollView(
             child: Ink(
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              // color: Theme.of(context).primaryColor.withOpacity(0.1),
               padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
               child: Column(children: [
                 //

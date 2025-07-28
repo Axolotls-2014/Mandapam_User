@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
@@ -33,6 +34,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (ResponsiveHelper.isMobilePhone()) {
     HttpOverrides.global = MyHttpOverrides();
+    // await disableScreenshots();
   }
   setPathUrlStrategy();
 
@@ -50,7 +52,6 @@ Future<void> main() async {
       await Firebase.initializeApp();
     }
   }
-
 
   Map<String, Map<String, String>> languages = await di.init();
   NotificationBodyModel? body;
@@ -74,6 +75,10 @@ Future<void> main() async {
     );
   }
   runApp(MyApp(languages: languages, body: body));
+}
+
+Future<void> disableScreenshots() async {
+  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 }
 
 class MyApp extends StatefulWidget {
@@ -137,7 +142,6 @@ class _MyAppState extends State<MyApp> {
             locale: localizeController.locale,
             translations: Messages(languages: widget.languages),
             fallbackLocale: Locale(AppConstants.languages[0].languageCode!, AppConstants.languages[0].countryCode),
-            // initialRoute: GetPlatform.isWeb ? RouteHelper.getInitialRoute() : RouteHelper.getSplashRoute(widget.body),
             initialRoute: GetPlatform.isWeb ? RouteHelper.getSplashRoute(widget.body) : RouteHelper.getSplashRoute(widget.body),
             getPages: RouteHelper.routes,
             defaultTransition: Transition.topLevel,

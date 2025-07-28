@@ -30,7 +30,7 @@ class GroceryHomeScreen extends StatelessWidget {
         ),
       ),
 
-      const CategoryView(),
+      // const CategoryView(),
       isLoggedIn ? const VisitAgainView() : const SizedBox(),
       const SpecialOfferView(isFood: false, isShop: false),
       const HighlightWidget(),

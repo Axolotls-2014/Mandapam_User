@@ -14,6 +14,9 @@ class AppConstants {
   static const bool useReactWebsite = false;
 
   static const String baseUrl = 'https://mandapam.co';
+
+  // static const String newLoginUri = '/api/v1/auth/user_login';
+
   static const String categoryUri = '/api/v1/events';
   static const String bannerUri = '/api/v1/banners';
   static const String storeItemUri = '/api/v1/items/latest';
@@ -33,7 +36,7 @@ class AppConstants {
   static const String checkEmailUri = '/api/v1/auth/check-email';
   static const String verifyEmailUri = '/api/v1/auth/verify-email';
   static const String registerUri = '/api/v1/auth/sign-up';
-  static const String loginUri = '/api/v1/auth/login';
+  static const String loginUri = '/api/v1/auth/user_login';
   static const String tokenUri = '/api/v1/customer/cm-firebase-token';
   static const String placeOrderUri = '/api/v1/customer/order/place';
   static const String placePrescriptionOrderUri = '/api/v1/customer/order/prescription/place';
@@ -163,6 +166,13 @@ class AppConstants {
   static const String removeAllCartUri = '/api/v1/customer/cart/remove';
   static const String removeItemCartUri = '/api/v1/customer/cart/remove-item';
 
+
+  // Favorite media
+  static const String addFavoriteMediaUri = '/api/v1/customer/wish-list/add';
+  static const String removeFavoriteMedia = 'api/v1/customer/wish-list/remove';
+  static const String showFavoriteList = '/api/v1/customer/wish-list/getWishlist_user';
+  static const String  showFavoriteMedia = 'api/v1/customer/wish-list/detail';
+
   /// Shared Key
   static const String theme = '6ammart_theme';
   static const String token = '6ammart_token';
@@ -286,5 +296,3 @@ class AppConstants {
     },
   ];
 }
-
-// API_CLIEND:::====>

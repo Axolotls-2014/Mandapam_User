@@ -133,7 +133,7 @@ class MenuDrawerState extends State<MenuDrawer> with SingleTickerProviderStateMi
         Get.dialog(ConfirmationDialog(icon: Images.support, description: 'are_you_sure_to_logout'.tr, isLogOut: true, onYesPressed: () {
           Get.find<ProfileController>().clearUserInfo();
           Get.find<AuthController>().clearSharedData();
-          Get.find<CartController>().clearCartList();
+          // Get.find<CartController>().clearCartList();
           Get.find<AuthController>().socialLogout();
           Get.find<FavouriteController>().removeFavourite();
           if(ResponsiveHelper.isDesktop(Get.context)) {

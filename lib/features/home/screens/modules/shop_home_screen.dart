@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:sixam_mart/features/nearby/screens/nearby_screen.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
@@ -9,13 +7,13 @@ import 'package:sixam_mart/features/home/widgets/views/visit_again_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/category_view.dart';
 
 class ShopHomeScreen extends StatelessWidget {
-  const ShopHomeScreen({super.key});
+  final String searchQuery;
+  const ShopHomeScreen({super.key, required this.searchQuery});
 
   @override
   Widget build(BuildContext context) {
-
     bool isLoggedIn = AuthHelper.isLoggedIn();
-  
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       // Container(
       //   width: MediaQuery.of(context).size.width,
@@ -34,10 +32,10 @@ class ShopHomeScreen extends StatelessWidget {
       //   ),
       // ),
 
-      const CategoryView(),
+      CategoryView(searchQuery: searchQuery),
       // isLoggedIn ? const VisitAgainView() : const SizedBox(),
       // const MostPopularItemView(isFood: false, isShop: true),
-      const NearbyDecoratorsList(isFood: false, isShop: true),
+      NearbyDecoratorsList(isFood: false, isShop: true, searchQuery: searchQuery),
       // SizedBox(height: 80),
       // const FlashSaleViewWidget(),
       // const MiddleSectionBannerView(),

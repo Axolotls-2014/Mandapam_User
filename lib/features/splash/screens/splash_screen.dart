@@ -324,8 +324,7 @@ class SplashScreenState extends State<SplashScreen> {
               ? Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(Images.logo, width: 200),
-              const SizedBox(height: Dimensions.paddingSizeSmall),
+              Image.asset(Images.logo, width: 300),
             ],
           )
               : NoInternetScreen(child: SplashScreen(body: widget.body)),
@@ -333,4 +332,6 @@ class SplashScreenState extends State<SplashScreen> {
       }),
     );
   }
+
+
 }

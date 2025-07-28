@@ -9,7 +9,7 @@ import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 
-class AuthService implements AuthServiceInterface{
+class AuthService implements AuthServiceInterface {
   final AuthRepositoryInterface authRepositoryInterface;
   AuthService({required this.authRepositoryInterface});
 
@@ -80,7 +80,7 @@ class AuthService implements AuthServiceInterface{
       }else {
         Get.toNamed(RouteHelper.getForgotPassRoute(true, socialLogInBody));
       }
-    }else if(response.statusCode == 403 && response.body['errors'][0]['code'] == 'email'){
+    } else if(response.statusCode == 403 && response.body['errors'][0]['code'] == 'email'){
       Get.toNamed(RouteHelper.getForgotPassRoute(true, socialLogInBody));
     } else {
       showCustomSnackBar(response.statusText);

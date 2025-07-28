@@ -18,7 +18,6 @@ class FoodHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isLoggedIn = AuthHelper.isLoggedIn();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
       Container(
         width: MediaQuery.of(context).size.width,
         decoration: Get.find<ThemeController>().darkTheme ? null : const BoxDecoration(
@@ -30,14 +29,13 @@ class FoodHomeScreen extends StatelessWidget {
         child: const Column(
           children: [
             BadWeatherWidget(),
-
             BannerView(isFeatured: false),
             SizedBox(height: 12),
           ],
         ),
       ),
 
-      const CategoryView(),
+      // const CategoryView(),
       isLoggedIn ? const VisitAgainView(fromFood: true) : const SizedBox(),
       const SpecialOfferView(isFood: true, isShop: false),
       const HighlightWidget(),

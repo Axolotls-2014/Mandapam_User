@@ -25,13 +25,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   void initState() {
     super.initState();
-
     Get.find<OnBoardingController>().getOnBoardingList();
   }
 
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       appBar: ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : null,
       body: SafeArea(
@@ -41,122 +39,121 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 onBoardingController.onBoardingList.length - 1;
             return onBoardingController.onBoardingList.isNotEmpty
                 ? SafeArea(
-                    child: Center(
-                        child: SizedBox(
-                            width: Dimensions.webMaxWidth,
-                            child: Column(children: [
-                              Expanded(
-                                  child: PageView.builder(
-                                itemCount:
-                                    onBoardingController.onBoardingList.length,
-                                controller: _pageController,
-                                // physics: const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        showIndicatorAndButton &&
-                                                onBoardingController
-                                                        .onBoardingList[index]
-                                                        .imageUrl !=
-                                                    ''
-                                            ? Padding(
-                                                padding: EdgeInsets.all(
-                                                    context.height * 0.05),
-                                                child: Image.asset(
-                                                    onBoardingController
-                                                        .onBoardingList[index]
-                                                        .imageUrl,
-                                                    height:
-                                                        context.height * 0.4),
-                                              )
-                                            : const SizedBox(),
-                                        Text(
+              child: Center(
+                  child: SizedBox(
+                      width: Dimensions.webMaxWidth,
+                      child: Column(children: [
+                        Expanded(
+                            child: PageView.builder(
+                              itemCount:
+                              onBoardingController.onBoardingList.length,
+                              controller: _pageController,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    children: [
+                                      showIndicatorAndButton &&
                                           onBoardingController
-                                              .onBoardingList[index].title,
-                                          style: robotoMedium.copyWith(
-                                              fontSize: context.height * 0.022),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        SizedBox(
-                                            height: context.height * 0.025),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal:
-                                                  Dimensions.paddingSizeLarge),
-                                          child: Text(
+                                              .onBoardingList[index]
+                                              .imageUrl !=
+                                              ''
+                                          ? Padding(
+                                        padding: EdgeInsets.all(
+                                            context.height * 0.05),
+                                        child: Image.asset(
                                             onBoardingController
                                                 .onBoardingList[index]
-                                                .description,
-                                            style: robotoRegular.copyWith(
-                                                fontSize:
-                                                    context.height * 0.015,
-                                                color: Theme.of(context)
-                                                    .disabledColor),
-                                            textAlign: TextAlign.center,
-                                          ),
+                                                .imageUrl,
+                                            height:
+                                            context.height * 0.4),
+                                      )
+                                          : const SizedBox(),
+                                      Text(
+                                        onBoardingController
+                                            .onBoardingList[index].title,
+                                        style: robotoMedium.copyWith(
+                                            fontSize: context.height * 0.022),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(
+                                          height: context.height * 0.025),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal:
+                                            Dimensions.paddingSizeLarge),
+                                        child: Text(
+                                          onBoardingController
+                                              .onBoardingList[index]
+                                              .description,
+                                          style: robotoRegular.copyWith(
+                                              fontSize:
+                                              context.height * 0.015,
+                                              color: Theme.of(context)
+                                                  .disabledColor),
+                                          textAlign: TextAlign.center,
                                         ),
-                                      ]);
+                                      ),
+                                    ]);
+                              },
+                              onPageChanged: (index) {
+                                onBoardingController.changeSelectIndex(index);
+                                if (onBoardingController.selectedIndex == 3) {
+                                  _configureToRouteInitialPage();
+                                }
+                              },
+                            )),
+                        showIndicatorAndButton
+                            ? Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.center,
+                          children: _pageIndicators(
+                              onBoardingController, context),
+                        )
+                            : const SizedBox(),
+                        SizedBox(height: context.height * 0.05),
+                        showIndicatorAndButton
+                            ? Padding(
+                          padding: const EdgeInsets.all(
+                              Dimensions.paddingSizeSmall),
+                          child: Row(children: [
+                            onBoardingController.selectedIndex == 2
+                                ? const SizedBox()
+                                : Expanded(
+                              child: CustomButton(
+                                transparent: true,
+                                onPressed: () {
+                                  _pageController.jumpToPage(2);
                                 },
-                                onPageChanged: (index) {
-                                  onBoardingController.changeSelectIndex(index);
-                                  if (onBoardingController.selectedIndex == 3) {
+                                buttonText: 'skip'.tr,
+                              ),
+                            ),
+                            Expanded(
+                              child: CustomButton(
+                                buttonText: onBoardingController
+                                    .selectedIndex !=
+                                    2
+                                    ? 'next'.tr
+                                    : 'get_started'.tr,
+                                onPressed: () {
+                                  if (onBoardingController
+                                      .selectedIndex !=
+                                      2) {
+                                    _pageController.nextPage(
+                                        duration: const Duration(
+                                            seconds: 1),
+                                        curve: Curves.ease);
+                                  } else {
                                     _configureToRouteInitialPage();
                                   }
                                 },
-                              )),
-                              showIndicatorAndButton
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: _pageIndicators(
-                                          onBoardingController, context),
-                                    )
-                                  : const SizedBox(),
-                              SizedBox(height: context.height * 0.05),
-                              showIndicatorAndButton
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(
-                                          Dimensions.paddingSizeSmall),
-                                      child: Row(children: [
-                                        onBoardingController.selectedIndex == 2
-                                            ? const SizedBox()
-                                            : Expanded(
-                                                child: CustomButton(
-                                                  transparent: true,
-                                                  onPressed: () {
-                                                    _configureToRouteInitialPage();
-                                                  },
-                                                  buttonText: 'skip'.tr,
-                                                ),
-                                              ),
-                                        Expanded(
-                                          child: CustomButton(
-                                            buttonText: onBoardingController
-                                                        .selectedIndex !=
-                                                    2
-                                                ? 'next'.tr
-                                                : 'get_started'.tr,
-                                            onPressed: () {
-                                              if (onBoardingController
-                                                      .selectedIndex !=
-                                                  2) {
-                                                _pageController.nextPage(
-                                                    duration: const Duration(
-                                                        seconds: 1),
-                                                    curve: Curves.ease);
-                                              } else {
-                                                _configureToRouteInitialPage();
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                      ]),
-                                    )
-                                  : const SizedBox(),
-                            ]))),
-                  )
+                              ),
+                            ),
+                          ]),
+                        )
+                            : const SizedBox(),
+                      ]))),
+            )
                 : const SizedBox();
           },
         ),
@@ -167,7 +164,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   List<Widget> _pageIndicators(
       OnBoardingController onBoardingController, BuildContext context) {
     List<Container> indicators = [];
-
     for (int i = 0; i < onBoardingController.onBoardingList.length - 1; i++) {
       indicators.add(
         Container(
@@ -188,41 +184,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return indicators;
   }
 
-  // void _configureToRouteInitialPage() async {
-  //   Get.find<SplashController>().disableIntro();
-  //   // await Get.find<AuthController>().guestLogin();
-  //   Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
-  //   if (AddressHelper.getUserAddressFromSharedPref() != null) {
-  //     // Get.offNamed(RouteHelper.getInitialRoute(fromSplash: true));
-  //     Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
-  //   } else {
-  //     Get.find<LocationController>().navigateToLocationScreen(RouteHelper.onBoarding, offNamed: true).then((v) {
-  //       _pageController.jumpToPage(Get.find<OnBoardingController>().onBoardingList.length-2);
-  //     });
-  //     // Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
-  //   }
-  // }
-
-
   void _configureToRouteInitialPage() async {
-    print('Configuring initial route...');
     Get.find<SplashController>().disableIntro();
-
-    final address = AddressHelper.getUserAddressFromSharedPref();
-    print('User address: ${address?.toJson()}');
-
-    if (address != null) {
-      print('Navigating to sign in');
+    if (AddressHelper.getUserAddressFromSharedPref() != null) {
       Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
     } else {
-      print('Navigating to location screen');
       Get.find<LocationController>().navigateToLocationScreen(RouteHelper.onBoarding, offNamed: true).then((v) {
         _pageController.jumpToPage(Get.find<OnBoardingController>().onBoardingList.length-2);
       });
-      // Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
     }
   }
 }
-
-
-// https://mandapam.co/api/v1/events/getNearbyDecoratorsMedia

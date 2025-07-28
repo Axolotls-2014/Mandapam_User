@@ -14,19 +14,18 @@ import 'package:get/get.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
-
   @override
   FavouriteScreenState createState() => FavouriteScreenState();
 }
 
 class FavouriteScreenState extends State<FavouriteScreen> with SingleTickerProviderStateMixin {
-  TabController? _tabController;
+  // TabController? _tabController;
 
   @override
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
+    // _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
 
     initCall();
   }
@@ -46,39 +45,39 @@ class FavouriteScreenState extends State<FavouriteScreen> with SingleTickerProvi
 
         WebScreenTitleWidget(title: 'favourite'.tr),
 
-        SizedBox(
-          width: Dimensions.webMaxWidth,
-          child: Container(
-            width: Dimensions.webMaxWidth,
-            color: Theme.of(context).cardColor,
-            alignment: Alignment.bottomLeft,
-            child: TabBar(
-              tabAlignment: ResponsiveHelper.isDesktop(context) ? TabAlignment.start : null,
-              isScrollable: ResponsiveHelper.isDesktop(context) ? true : false,
-              controller: _tabController,
-              indicatorColor: Theme.of(context).primaryColor,
-              indicatorWeight: 1,
-              labelColor: Theme.of(context).primaryColor,
-              unselectedLabelColor: Theme.of(context).disabledColor,
-              unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
-              labelStyle: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
-              tabs: [
-                Tab(text: 'item'.tr),
-                Tab(text: Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
-                    ? 'restaurants'.tr : 'stores'.tr),
-              ],
-            ),
-          ),
-        ),
-
-        Expanded(child: TabBarView(
-          controller: _tabController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: const [
-            FavItemViewWidget(isStore: false),
-            FavItemViewWidget(isStore: true),
-          ],
-        )),
+        // SizedBox(
+        //   width: Dimensions.webMaxWidth,
+        //   child: Container(
+        //     width: Dimensions.webMaxWidth,
+        //     color: Theme.of(context).cardColor,
+        //     alignment: Alignment.bottomLeft,
+        //     child: TabBar(
+        //       tabAlignment: ResponsiveHelper.isDesktop(context) ? TabAlignment.start : null,
+        //       isScrollable: ResponsiveHelper.isDesktop(context) ? true : false,
+        //       controller: _tabController,
+        //       indicatorColor: Theme.of(context).primaryColor,
+        //       indicatorWeight: 1,
+        //       labelColor: Theme.of(context).primaryColor,
+        //       unselectedLabelColor: Theme.of(context).disabledColor,
+        //       unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+        //       labelStyle: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+        //       tabs: [
+        //         Tab(text: 'item'.tr),
+        //         Tab(text: Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
+        //             ? 'restaurants'.tr : 'stores'.tr),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        //
+        // Expanded(child: TabBarView(
+        //   controller: _tabController,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   children: const [
+        //     FavItemViewWidget(isStore: false),
+        //     FavItemViewWidget(isStore: true),
+        //   ],
+        // )),
 
       ])) : NotLoggedInScreen(callBack: (value){
         initCall();

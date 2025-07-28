@@ -4,7 +4,7 @@ import 'package:sixam_mart/features/auth/domain/models/signup_body_model.dart';
 import 'package:sixam_mart/features/auth/domain/models/social_log_in_body.dart';
 import 'package:sixam_mart/interfaces/repository_interface.dart';
 
-abstract class AuthRepositoryInterface extends RepositoryInterface{
+abstract class AuthRepositoryInterface extends RepositoryInterface {
   bool isSharedPrefNotificationActive();
   Future<ResponseModel> registration(SignUpBodyModel signUpBody);
   Future<Response> login({String? phone, String? password});

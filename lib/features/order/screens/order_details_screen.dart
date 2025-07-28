@@ -57,7 +57,7 @@ class OrderDetailsScreenState extends State<OrderDetailsScreen> {
     Get.find<OrderController>().getOrderDetails(widget.orderId.toString());
   }
 
-  void _startApiCall(){
+  void _startApiCall() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       await Get.find<OrderController>().timerTrackOrder(widget.orderId.toString(), contactNumber: widget.contactNumber);
@@ -67,16 +67,13 @@ class OrderDetailsScreenState extends State<OrderDetailsScreen> {
   @override
   void initState() {
     super.initState();
-
     _loadData(context, false);
-
     _startApiCall();
   }
 
   @override
   void dispose() {
     _timer?.cancel();
-
     super.dispose();
   }
 

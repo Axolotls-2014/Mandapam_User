@@ -16,7 +16,7 @@ import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/module_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 
-class AuthRepository implements AuthRepositoryInterface{
+class AuthRepository implements AuthRepositoryInterface {
   final ApiClient apiClient;
   final SharedPreferences sharedPreferences;
   AuthRepository({ required this.sharedPreferences, required this.apiClient});
@@ -26,22 +26,13 @@ class AuthRepository implements AuthRepositoryInterface{
     return sharedPreferences.getBool(AppConstants.notification) ?? true;
   }
 
+  // userId
+
   @override
   Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
-    Response response = await apiClient.postData(
-        AppConstants.registerUri,
-        signUpBody.toJson(),
-        handleError: false
-    );
-
+    Response response = await apiClient.postData(AppConstants.registerUri, signUpBody.toJson(), handleError: false);
     if (response.statusCode == 200) {
-      Map<String, dynamic> responseData = response.body;
-
-      if (responseData.containsKey("user_id")) {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString("user_id", responseData["user_id"].toString());
-      }
-      return ResponseModel(true, responseData["token"]);
+      return ResponseModel(true, response.body["token"]);
     } else {
       return ResponseModel(false, response.statusText);
     }
@@ -54,7 +45,7 @@ class AuthRepository implements AuthRepositoryInterface{
 
     Map<String, String> data = {
       "phone": phone!,
-      "password": password!,
+      "name": password!,
       "cm_firebase_token": deviceToken!,
       "usertype": "User",
     };
@@ -80,7 +71,6 @@ class AuthRepository implements AuthRepositoryInterface{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString("user_id");
   }
-
 
   @override
   Future<ResponseModel> guestLogin() async {
@@ -113,7 +103,7 @@ class AuthRepository implements AuthRepositoryInterface{
       AddressModel? addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
       apiClient.updateHeader(
         token, addressModel.zoneIds, addressModel.areaIds, sharedPreferences.getString(AppConstants.languageCode),
-         ModuleHelper.getModule()?.id, addressModel.latitude, addressModel.longitude,
+        ModuleHelper.getModule()?.id, addressModel.latitude, addressModel.longitude,
       );
     }else{
       apiClient.updateHeader(
@@ -138,7 +128,7 @@ class AuthRepository implements AuthRepositoryInterface{
         if(settings.authorizationStatus == AuthorizationStatus.authorized) {
           deviceToken = await saveDeviceToken();
         }
-      }else {
+      } else {
         deviceToken = await saveDeviceToken();
       }
       if(!GetPlatform.isWeb) {
@@ -336,7 +326,5 @@ class AuthRepository implements AuthRepositoryInterface{
   Future update(Map<String, dynamic> body, int? id) {
     throw UnimplementedError();
   }
-
-
 
 }

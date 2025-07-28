@@ -47,7 +47,6 @@ class SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
-
     _formKeyLogin = GlobalKey<FormState>();
     _countryDialCode = Get.find<AuthController>().getUserCountryCode().isNotEmpty ? Get.find<AuthController>().getUserCountryCode()
         : CountryCode.fromCountryCode(Get.find<SplashController>().configModel!.country!).dialCode;
@@ -57,19 +56,56 @@ class SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
+    return PopScope(
+      canPop: Navigator.canPop(context),
+      onPopInvokedWithResult: (didPop, result) async {
+        if(widget.fromNotification) {
+          Navigator.pushNamed(context, RouteHelper.getInitialRoute());
+        } else if(widget.exitFromApp) {
+          if (_canExit) {
+            if (GetPlatform.isAndroid) {
+              SystemNavigator.pop();
+            } else if (GetPlatform.isIOS) {
+              exit(0);
+            } else {
+              Navigator.pushNamed(context, RouteHelper.getInitialRoute());
+            }
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('back_press_again_to_exit'.tr, style: const TextStyle(color: Colors.white)),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 2),
+              margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            ));
+            _canExit = true;
+            Timer(const Duration(seconds: 2), () {
+              _canExit = false;
+            });
+          }
+        } else {
+          // Close the app when back button is pressed
+          if (GetPlatform.isAndroid) {
+            SystemNavigator.pop();
+          } else if (GetPlatform.isIOS) {
+            exit(0);
+          }
+        }
       },
       child: SafeArea(
         child: Scaffold(
           backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).cardColor,
           appBar: (ResponsiveHelper.isDesktop(context) ? null : !widget.exitFromApp ? AppBar(leading: IconButton(
             onPressed: () {
-              if (GetPlatform.isAndroid) {
-                SystemNavigator.pop();
-              } else if (GetPlatform.isIOS) {
-                exit(0);
+              if(widget.fromNotification) {
+                Navigator.pushNamed(context, RouteHelper.getInitialRoute());
+              } else {
+                // Close the app when app bar back button is pressed
+                if (GetPlatform.isAndroid) {
+                  SystemNavigator.pop();
+                } else if (GetPlatform.isIOS) {
+                  exit(0);
+                }
               }
             },
             icon: Icon(Icons.arrow_back_ios_rounded, color: Theme.of(context).textTheme.bodyLarge!.color),
@@ -103,20 +139,32 @@ class SignInScreenState extends State<SignInScreen> {
                             ),
                           ),
                         ) : const SizedBox(),
-
                         Form(
                           key: _formKeyLogin,
                           child: Padding(
                             padding: ResponsiveHelper.isDesktop(context) ? const EdgeInsets.all(40) : EdgeInsets.zero,
                             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                               Image.asset(Images.logo, width: 125),
-                              // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                              // Center(child: Text(AppConstants.APP_NAME, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
                               const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
                               Align(
                                 alignment: Get.find<LocalizationController>().isLtr ? Alignment.topLeft : Alignment.topRight,
                                 child: Text('sign_in'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
+                              ),
+                              const SizedBox(height: Dimensions.paddingSizeLarge),
+
+                              CustomTextField(
+                                titleText: 'Enter Name',
+                                controller: _passwordController,
+                                focusNode: _passwordFocus,
+                                inputAction: TextInputAction.done,
+                                inputType: TextInputType.text,
+                                prefixIcon: Icons.person,
+                                isPassword: false,
+                                onSubmit: (text) => (GetPlatform.isWeb) ? _login(authController, _countryDialCode!) : null,
+                                required: true,
+                                labelText: 'Name',
+                                validator: (value) => ValidateCheck.validateEmptyText(value, null),
                               ),
                               const SizedBox(height: Dimensions.paddingSizeLarge),
 
@@ -137,51 +185,24 @@ class SignInScreenState extends State<SignInScreen> {
                               ),
                               const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
 
-                              CustomTextField(
-                                titleText: 'enter_your_password'.tr,
-                                controller: _passwordController,
-                                focusNode: _passwordFocus,
-                                inputAction: TextInputAction.done,
-                                inputType: TextInputType.visiblePassword,
-                                prefixIcon: Icons.lock,
-                                isPassword: true,
-                                onSubmit: (text) => (GetPlatform.isWeb) ? _login(authController, _countryDialCode!) : null,
-                                required: true,
-                                labelText: 'password'.tr,
-                                validator: (value) => ValidateCheck.validateEmptyText(value, null),
-                              ),
-                              const SizedBox(height: Dimensions.paddingSizeLarge),
-
-
                               Row(children: [
-                                // Expanded(
-                                //   child: ListTile(
-                                //     onTap: () => authController.toggleRememberMe(),
-                                //     leading: Checkbox(
-                                //       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                //       activeColor: Theme.of(context).primaryColor,
-                                //       value: authController.isActiveRememberMe,
-                                //       onChanged: (bool? isChecked) => authController.toggleRememberMe(),
-                                //     ),
-                                //     title: Text('remember_me'.tr),
-                                //     contentPadding: EdgeInsets.zero,
-                                //     visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-                                //     dense: true,
-                                //     horizontalTitleGap: 0,
-                                //   ),
-                                // ),
-                                // TextButton(
-                                //   onPressed: () => Get.toNamed(RouteHelper.getForgotPassRoute(false, null)),
-                                //   child: Text('${'forgot_password'.tr}?', style: robotoRegular.copyWith(color: Theme.of(context).primaryColor)),
-                                // ),
+                                Expanded(
+                                  child: ListTile(
+                                    onTap: () => authController.toggleRememberMe(),
+                                    leading: Checkbox(
+                                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                      activeColor: Theme.of(context).primaryColor,
+                                      value: authController.isActiveRememberMe,
+                                      onChanged: (bool? isChecked) => authController.toggleRememberMe(),
+                                    ),
+                                    title: Text('remember_me'.tr),
+                                    contentPadding: EdgeInsets.zero,
+                                    visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                                    dense: true,
+                                    horizontalTitleGap: 0,
+                                  ),
+                                ),
                               ]),
-                              const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                              const Align(
-                                alignment: Alignment.center,
-                                child: ConditionCheckBoxWidget(forDeliveryMan: false),
-                              ),
-
                               const SizedBox(height: Dimensions.paddingSizeDefault),
 
                               CustomButton(
@@ -196,14 +217,16 @@ class SignInScreenState extends State<SignInScreen> {
                               ),
                               const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
-                              ResponsiveHelper.isDesktop(context) ? const SizedBox() : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                              ResponsiveHelper.isDesktop(context) ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                                 Text('do_not_have_account'.tr, style: robotoRegular.copyWith(color: Theme.of(context).hintColor)),
 
                                 InkWell(
                                   onTap: () {
                                     if(ResponsiveHelper.isDesktop(context)){
                                       Get.back();
-                                      Get.dialog(const SignUpScreen(exitFromApp: true));
+                                      Get.dialog(const SignUpScreen());
                                     }else{
                                       Get.toNamed(RouteHelper.getSignUpRoute());
                                     }
@@ -213,32 +236,7 @@ class SignInScreenState extends State<SignInScreen> {
                                     child: Text('sign_up'.tr, style: robotoMedium.copyWith(color: Theme.of(context).primaryColor)),
                                   ),
                                 ),
-                              ]),
-                              const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                              const SocialLoginWidget(),
-
-                              // ResponsiveHelper.isDesktop(context) ? const SizedBox() : const GuestButtonWidget(),
-
-                              ResponsiveHelper.isDesktop(context) ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                // Text('do_not_have_account'.tr, style: robotoRegular.copyWith(color: Theme.of(context).hintColor)),
-                                //
-                                // InkWell(
-                                //   onTap: () {
-                                //     if(ResponsiveHelper.isDesktop(context)){
-                                //       Get.back();
-                                //       Get.dialog(const SignUpScreen());
-                                //     }else{
-                                //       Get.toNamed(RouteHelper.getSignUpRoute());
-                                //     }
-                                //   },
-                                //   child: Padding(
-                                //     padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                                //     child: Text('sign_up'.tr, style: robotoMedium.copyWith(color: Theme.of(context).primaryColor)),
-                                //   ),
-                                // ),
-                              ]
-                              ) :  const SizedBox(),
+                              ]) :  const SizedBox(),
 
                             ]),
                           ),
@@ -263,47 +261,36 @@ class SignInScreenState extends State<SignInScreen> {
     numberWithCountryCode = phoneValid.phone;
 
     if(_formKeyLogin!.currentState!.validate()) {
-      if (phone.isEmpty) {
+      if (password.isEmpty) {
+        showCustomSnackBar('Enter Name');
+      } else if (phone.isEmpty) {
         showCustomSnackBar('enter_phone_number'.tr);
       }else if (!phoneValid.isValid) {
         showCustomSnackBar('invalid_phone_number'.tr);
-      }else if (password.isEmpty) {
-        showCustomSnackBar('enter_password'.tr);
-      }else if (password.length < 6) {
-        showCustomSnackBar('password_should_be'.tr);
       }else {
         authController.login(numberWithCountryCode, password).then((status) async {
+          print("API_Response: \${status.message}");
+
           if (status.isSuccess) {
-            if(!Get.find<SplashController>().configModel!.customerVerification! && int.parse(status.message![0]) != 0) {
-              Get.find<CartController>().getCartDataOnline();
-            }
             if (authController.isActiveRememberMe) {
               authController.saveUserNumberAndPasswordSharedPref(phone, password, countryDialCode);
             } else {
               authController.clearUserNumberAndPassword();
             }
             String token = status.message!.substring(1, status.message!.length);
-            if(Get.find<SplashController>().configModel!.customerVerification! && int.parse(status.message![0]) == 0) {
-              if(Get.find<SplashController>().configModel!.firebaseOtpVerification!) {
+            if (Get.find<SplashController>().configModel!.customerVerification! && int.parse(status.message![0]) == 0) {
+              if (Get.find<SplashController>().configModel!.firebaseOtpVerification!) {
                 Get.find<AuthController>().firebaseVerifyPhoneNumber(numberWithCountryCode, token, fromSignUp: true);
               } else {
                 List<int> encoded = utf8.encode(password);
                 String data = base64Encode(encoded);
                 Get.toNamed(RouteHelper.getVerificationRoute(numberWithCountryCode, token, RouteHelper.signUp, data));
               }
-            }else {
-
-              if(widget.backFromThis) {
-                if(ResponsiveHelper.isDesktop(Get.context)){
-                  Get.offAllNamed(RouteHelper.getInitialRoute(fromSplash: false));
-                } else {
-                  Get.back();
-                }
-              }else{
-                Get.find<LocationController>().navigateToLocationScreen('sign-in', offNamed: true);
-              }
+            } else {
+              Get.offNamed(RouteHelper.getInitialRoute(fromSplash: true));
             }
-          }else {
+          }
+          else {
             showCustomSnackBar(status.message);
           }
         });
@@ -311,5 +298,3 @@ class SignInScreenState extends State<SignInScreen> {
     }
   }
 }
-
-// Decorator
