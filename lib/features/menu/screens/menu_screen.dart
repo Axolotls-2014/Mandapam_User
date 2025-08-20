@@ -53,45 +53,45 @@ class _MenuScreenState extends State<MenuScreen> {
                     color: Theme.of(context).primaryColor,
                     shape: BoxShape.circle,
                   ),
-                  padding: const EdgeInsets.all(1),
-                  child: ClipOval(child: CustomImage(
-                    placeholder: Images.guestIconLight,
-                    image: '${(profileController.userInfoModel != null && isLoggedIn) ? profileController.userInfoModel!.imageFullUrl : ''}',
-                    height: 70, width: 70, fit: BoxFit.cover,
-                  )),
+                  // padding: const EdgeInsets.all(1),
+                  // child: ClipOval(child: CustomImage(
+                  //   placeholder: Images.guestIconLight,
+                  //   image: '${(profileController.userInfoModel != null && isLoggedIn) ? profileController.userInfoModel!.imageFullUrl : ''}',
+                  //   height: 70, width: 70, fit: BoxFit.cover,
+                  // )),
                 ),
                 const SizedBox(width: Dimensions.paddingSizeDefault),
 
-                Expanded(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(
-                      isLoggedIn ? '${profileController.userInfoModel?.fName} ${profileController.userInfoModel?.lName ?? ''}' : 'guest_user'.tr,
-                      style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).cardColor),
-                    ),
-                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-
-                    isLoggedIn ? Text(
-                      profileController.userInfoModel != null ? DateConverter.containTAndZToUTCFormat(profileController.userInfoModel!.createdAt!) : '',
-                      style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor),
-                    ) : InkWell(
-                      onTap: () async {
-                        if(!ResponsiveHelper.isDesktop(context)) {
-                          await Get.toNamed(RouteHelper.getSignInRoute(Get.currentRoute));
-                          if(AuthHelper.isLoggedIn()) {
-                            profileController.getUserInfo();
-                          }
-                        }else{
-                          Get.dialog(const SignInScreen(exitFromApp: true, backFromThis: true));
-                        }
-                      },
-                      child: Text(
-                        'login_to_view_all_feature'.tr,
-                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor),
-                      ),
-                    ) ,
-
-                  ]),
-                ),
+                // Expanded(
+                //   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                //     Text(
+                //       isLoggedIn ? '${profileController.userInfoModel?.fName} ${profileController.userInfoModel?.lName ?? ''}' : 'guest_user'.tr,
+                //       style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).cardColor),
+                //     ),
+                //     const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                //
+                //     isLoggedIn ? Text(
+                //       profileController.userInfoModel != null ? DateConverter.containTAndZToUTCFormat(profileController.userInfoModel!.createdAt!) : '',
+                //       style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor),
+                //     ) : InkWell(
+                //       onTap: () async {
+                //         if(!ResponsiveHelper.isDesktop(context)) {
+                //           await Get.toNamed(RouteHelper.getSignInRoute(Get.currentRoute));
+                //           if(AuthHelper.isLoggedIn()) {
+                //             profileController.getUserInfo();
+                //           }
+                //         }else{
+                //           Get.dialog(const SignInScreen(exitFromApp: true, backFromThis: true));
+                //         }
+                //       },
+                //       child: Text(
+                //         'login_to_view_all_feature'.tr,
+                //         style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor),
+                //       ),
+                //     ) ,
+                //
+                //   ]),
+                // ),
 
               ]),
             ),
@@ -206,13 +206,13 @@ class _MenuScreenState extends State<MenuScreen> {
                 // ]) : const SizedBox(),
 
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
-                    child: Text(
-                      'help_and_support'.tr,
-                      style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor.withOpacity(0.5)),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
+                  //   child: Text(
+                  //     'help_and_support'.tr,
+                  //     style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                  //   ),
+                  // ),
 
                   Container(
                     decoration: BoxDecoration(
@@ -225,10 +225,9 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: Column(children: [
                       // PortionWidget(icon: Images.chatIcon, title: 'live_chat'.tr, route: RouteHelper.getConversationRoute()),
                       PortionWidget(icon: Images.helpIcon, title: 'help_and_support'.tr, route: RouteHelper.getSupportRoute()),
-                      PortionWidget(icon: Images.aboutIcon, title: 'about_us'.tr, route: RouteHelper.getHtmlRoute('about-us')),
-                      PortionWidget(icon: Images.termsIcon, title: 'terms_conditions'.tr, route: RouteHelper.getHtmlRoute('terms-and-condition')),
-                      PortionWidget(icon: Images.privacyIcon, title: 'privacy_policy'.tr, hideDivider: true, route: RouteHelper.getHtmlRoute('privacy-policy')),
-
+                      // PortionWidget(icon: Images.aboutIcon, title: 'about_us'.tr, route: RouteHelper.getHtmlRoute('about-us')),
+                      PortionWidget(icon: Images.privacyIcon, title: 'privacy_policy'.tr, route: RouteHelper.getHtmlRoute('privacy-policy')),
+                      PortionWidget(icon: Images.termsIcon, title: 'terms_conditions'.tr, hideDivider: true, route: RouteHelper.getHtmlRoute('terms-and-condition')),
                       // (Get.find<SplashController>().configModel!.refundPolicyStatus == 1 ) ? PortionWidget(
                       //     icon: Images.refundIcon, title: 'refund_policy'.tr, route: RouteHelper.getHtmlRoute('refund-policy'),
                       //   hideDivider: (Get.find<SplashController>().configModel!.cancellationPolicyStatus == 1 ) ||
@@ -257,12 +256,13 @@ class _MenuScreenState extends State<MenuScreen> {
                         Get.find<FavouriteController>().removeFavourite();
                         await Get.find<AuthController>().clearSharedData();
                         Get.find<HomeController>().forcefullyNullCashBackOffers();
-                        // Get.offAllNamed(RouteHelper.getInitialRoute());
-                        await Get.toNamed(RouteHelper.getSignInRoute(Get.currentRoute));
+                        Get.offAllNamed(RouteHelper.getInitialRoute());
+                        // await Get.toNamed(RouteHelper.getSignInRoute(Get.currentRoute));
                       }), useSafeArea: false);
                     } else {
                       Get.find<FavouriteController>().removeFavourite();
                       await Get.toNamed(RouteHelper.getSignInRoute(Get.currentRoute));
+                      // Get.offAllNamed(RouteHelper.getInitialRoute());
                       if(AuthHelper.isLoggedIn()) {
                         await Get.find<FavouriteController>().getFavouriteList();
                         profileController.getUserInfo();
@@ -278,7 +278,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         child: Icon(Icons.power_settings_new_sharp, size: 18, color: Theme.of(context).cardColor),
                       ),
                       const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                      Text(AuthHelper.isLoggedIn() ? 'logout'.tr : 'sign_in'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge))
+                      Text(AuthHelper.isLoggedIn() ? 'logout'.tr : 'get_started'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge))
                     ]),
                   ),
                 ),

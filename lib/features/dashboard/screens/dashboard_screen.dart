@@ -214,7 +214,6 @@ class DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-
   void _setPage(int pageIndex) {
     setState(() {
       _pageController!.jumpToPage(pageIndex);

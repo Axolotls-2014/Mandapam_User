@@ -467,39 +467,92 @@ class LocationController extends GetxController implements GetxService {
           null,
           LatLng(
             double.parse(Get.find<SplashController>()
-                    .configModel!
-                    .defaultLocation!
-                    .lat ??
+                .configModel!
+                .defaultLocation!
+                .lat ??
                 '0'),
             double.parse(Get.find<SplashController>()
-                    .configModel!
-                    .defaultLocation!
-                    .lng ??
+                .configModel!
+                .defaultLocation!
+                .lng ??
                 '0'),
           ));
 
-      double distance = Geolocator.distanceBetween(
-            double.parse(
-                AddressHelper.getUserAddressFromSharedPref()!.latitude!),
-            double.parse(
-                AddressHelper.getUserAddressFromSharedPref()!.longitude!),
-            myPosition.latitude,
-            myPosition.longitude,
-          ) /
-          1000;
-
-      if (kDebugMode) {
-        print('======== distance is : $distance');
-      }
-      if (distance > 1) {
-        return true;
-      } else {
+      // Check if user address exists and has valid coordinates
+      AddressModel? userAddress = AddressHelper.getUserAddressFromSharedPref();
+      if (userAddress == null ||
+          userAddress.latitude == null ||
+          userAddress.longitude == null) {
         return false;
       }
-    } else {
-      return false;
+
+      try {
+        double userLat = double.parse(userAddress.latitude!);
+        double userLng = double.parse(userAddress.longitude!);
+
+        double distance = Geolocator.distanceBetween(
+          userLat,
+          userLng,
+          myPosition.latitude,
+          myPosition.longitude,
+        ) /
+            1000;
+
+        if (kDebugMode) {
+          print('======== distance is : $distance');
+        }
+        return distance > 1;
+      } catch (e) {
+        if (kDebugMode) {
+          print('Error calculating distance: $e');
+        }
+        return false;
+      }
     }
+    return false;
   }
+
+  // Future<bool> checkLocationActive() async {
+  //   bool isActiveLocation = await Geolocator.isLocationServiceEnabled();
+  //
+  //   if (isActiveLocation) {
+  //     Position myPosition = await locationServiceInterface.getPosition(
+  //         null,
+  //         LatLng(
+  //           double.parse(Get.find<SplashController>()
+  //                   .configModel!
+  //                   .defaultLocation!
+  //                   .lat ??
+  //               '0'),
+  //           double.parse(Get.find<SplashController>()
+  //                   .configModel!
+  //                   .defaultLocation!
+  //                   .lng ??
+  //               '0'),
+  //         ));
+  //
+  //     double distance = Geolocator.distanceBetween(
+  //           double.parse(
+  //               AddressHelper.getUserAddressFromSharedPref()!.latitude!),
+  //           double.parse(
+  //               AddressHelper.getUserAddressFromSharedPref()!.longitude!),
+  //           myPosition.latitude,
+  //           myPosition.longitude,
+  //         ) /
+  //         1000;
+  //
+  //     if (kDebugMode) {
+  //       print('======== distance is : $distance');
+  //     }
+  //     if (distance > 1) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   Future<void> navigateToLocationScreen(String page,
       {bool offNamed = false, bool offAll = false}) async {

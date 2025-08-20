@@ -41,12 +41,12 @@ class _SupportScreenState extends State<SupportScreen> {
             Image.asset(Images.logo, width: 200),
             const SizedBox(height: 40),
 
-            SupportButtonWidget(
-              icon: Icons.location_on, title: 'address'.tr, color: Colors.blue,
-              info: Get.find<SplashController>().configModel!.address,
-              onTap: () {},
-            ),
-            const SizedBox(height: Dimensions.paddingSizeSmall),
+            // SupportButtonWidget(
+            //   icon: Icons.location_on, title: 'address'.tr, color: Colors.blue,
+            //   info: Get.find<SplashController>().configModel!.address,
+            //   onTap: () {},
+            // ),
+            // const SizedBox(height: Dimensions.paddingSizeSmall),
 
             SupportButtonWidget(
               icon: Icons.call, title: 'call'.tr, color: Colors.red,

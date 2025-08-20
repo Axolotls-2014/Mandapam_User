@@ -25,7 +25,12 @@ class ApiClient extends GetxService {
 
   ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
     // log("In ApiClint Constructor");
+
     token = sharedPreferences.getString(AppConstants.token);
+    if (token == null) {
+      String? tokenValue = sharedPreferences.getString('otp');
+      token = tokenValue ?? '';
+    }
     // log("In ApiClint Constructor::::::token::$token");
     if (kDebugMode) {
       print('Token: $token');
@@ -83,6 +88,9 @@ class ApiClient extends GetxService {
             '${moduleID ?? ModuleModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.cacheModuleId)!)).id}'
       });
     }
+    if (token == null) {
+      //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    }
     header.addAll({
       'Content-Type': 'application/json; charset=UTF-8',
       AppConstants.zoneId: zoneIDs != null ? jsonEncode(zoneIDs) : '',
@@ -101,12 +109,8 @@ class ApiClient extends GetxService {
     return header;
   }
 
-
   Map<String, String> updateHeader2(
-      String? token,
-      List<int>? zoneIDs,
-      String? latitude,
-      String? longitude,
+      String? token, List<int>? zoneIDs, String? latitude, String? longitude,
       {bool setHeader = true}) {
     Map<String, String> header2 = {};
 
@@ -124,7 +128,6 @@ class ApiClient extends GetxService {
 
     return header2;
   }
-
 
   Future<Response> getData(String uri,
       {Map<String, dynamic>? query,
@@ -232,8 +235,8 @@ class ApiClient extends GetxService {
 
   Future<Response> postData2(String uri, dynamic body,
       {Map<String, String>? headers2,
-        int? timeout,
-        bool handleError = true}) async {
+      int? timeout,
+      bool handleError = true}) async {
     try {
       if (kDebugMode) {
         print('====> API Call: $uri\nHeader: ${headers2 ?? _secondaryHeaders}');
@@ -241,10 +244,10 @@ class ApiClient extends GetxService {
       }
       http.Response response = await http
           .post(
-        Uri.parse(appBaseUrl + uri),
-        body: jsonEncode(body),
-        headers: headers2 ?? _secondaryHeaders,
-      )
+            Uri.parse(appBaseUrl + uri),
+            body: jsonEncode(body),
+            headers: headers2 ?? _secondaryHeaders,
+          )
           .timeout(Duration(seconds: timeout ?? timeoutInSeconds));
       return handleResponse(response, uri, handleError);
     } catch (e) {

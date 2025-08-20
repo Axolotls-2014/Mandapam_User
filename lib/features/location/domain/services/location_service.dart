@@ -103,11 +103,11 @@ class LocationService implements LocationServiceInterface{
     if(route != null && canRoute) {
       Get.offAllNamed(route);
     }else {
-      if (AuthHelper.isLoggedIn()) {
+      // if (AuthHelper.isLoggedIn()) {
         Get.offAllNamed(RouteHelper.getInitialRoute());
-      } else {
-        Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
-      }
+      // } else {
+      //   Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
+      // }
     }
   }
 

@@ -31,6 +31,7 @@ import 'package:sixam_mart/features/location/screens/map_screen.dart';
 import 'package:sixam_mart/features/store/screens/campaign_screen.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
+import 'package:sixam_mart/screens/otp_verification_screen.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/html_type.dart';
 import 'package:sixam_mart/common/widgets/image_viewer_screen.dart';
@@ -83,6 +84,7 @@ import 'package:sixam_mart/features/wallet/screens/wallet_screen.dart';
 
 class RouteHelper {
   static const String initial = '/';
+  static const String otpScreen = '/otp_screen';
   static const String splash = '/splash';
   static const String language = '/language';
   static const String onBoarding = '/on-boarding';
@@ -540,6 +542,8 @@ class RouteHelper {
         }),
 
     GetPage(name: profile, page: () => getRoute(const ProfileScreen())),
+    GetPage(
+        name: otpScreen, page: () => getRoute(const OtpVerificationScreen())),
 
     GetPage(
         name: updateProfile, page: () => getRoute(const UpdateProfileScreen())),

@@ -182,8 +182,12 @@ class VerificationScreenState extends State<VerificationScreen> {
   }
 
   void _resendOtp(VerificationController verificationController) {
-    if(widget.fromSignUp) {
-      Get.find<AuthController>().login(_number, widget.password).then((value) {
+    if (widget.fromSignUp) {
+      Get.find<AuthController>()
+          .login(
+        _number,
+      )
+          .then((value) {
         if (value.isSuccess) {
           _startTimer();
           showCustomSnackBar('resend_code_successful'.tr, isError: false);
@@ -191,7 +195,7 @@ class VerificationScreenState extends State<VerificationScreen> {
           showCustomSnackBar(value.message);
         }
       });
-    }else {
+    } else {
       verificationController.forgetPassword(_number).then((value) {
         if (value.isSuccess) {
           _startTimer();
@@ -202,7 +206,6 @@ class VerificationScreenState extends State<VerificationScreen> {
       });
     }
   }
-
 
   void _verifyOtp(VerificationController verificationController) {
     if(widget.fromSignUp) {
