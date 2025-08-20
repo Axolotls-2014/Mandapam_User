@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sixam_mart/features/nearby/screens/nearby_screen.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
-
-import 'package:sixam_mart/features/home/widgets/views/most_popular_item_view.dart';
-import 'package:sixam_mart/features/home/widgets/views/visit_again_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/category_view.dart';
 
 class ShopHomeScreen extends StatelessWidget {
@@ -13,6 +10,7 @@ class ShopHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isLoggedIn = AuthHelper.isLoggedIn();
+    debugPrint("isLoggedIn: $isLoggedIn");
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       // Container(

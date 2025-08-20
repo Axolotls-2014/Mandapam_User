@@ -6,7 +6,7 @@ import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
-import 'package:sixam_mart/common/widgets/organic_tag.dart';
+//import 'package:sixam_mart/common/widgets/organic_tag.dart';
 
 class ItemTitleViewWidget extends StatelessWidget {
   final Item? item;

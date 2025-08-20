@@ -70,7 +70,7 @@ class AuthRepository implements AuthRepositoryInterface {
       final controller = Get.put(OtpController());
 
       controller.correctOtp.value = "${responseData['otp'] ?? ''}";
-      controller.userExit.value = responseData['phone_exists'] ?? false;
+      //controller.userExit.value = responseData['phone_exists'] ?? false;
       controller.numberWithCountryCode.value = phone;
 
       if (responseData.containsKey("user_id")) {

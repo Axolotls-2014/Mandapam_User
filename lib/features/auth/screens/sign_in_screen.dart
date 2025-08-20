@@ -5,12 +5,11 @@ import 'dart:convert';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
+import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 //import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
-import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
-import 'package:sixam_mart/features/auth/widgets/condition_check_box_widget.dart';
 import 'package:sixam_mart/helper/custom_validator.dart';
 //import 'package:sixam_mart/features/auth/widgets/social_login_widget.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
@@ -259,10 +258,11 @@ class SignInScreenState extends State<SignInScreen> {
                                       //  _login(authController, _countryDialCode!);
                                       String number =
                                           _phoneController.text.trim();
-                                      String fullPhoneNumber =
-                                          "$_countryDialCode$number";
-
-// Basic numeric check (only digits)
+                                      controller.numberWithCountryCode.value =
+                                          number;
+                                      // String fullPhoneNumber =
+                                      //     "$_countryDialCode$number";
+                                      // Basic numeric check (only digits)
                                       final RegExp phoneRegex =
                                           RegExp(r'^[0-9]{10}$');
 
@@ -277,9 +277,12 @@ class SignInScreenState extends State<SignInScreen> {
                                                 .tr);
                                         return;
                                       } else {
-                                        verify(authController);
-                                        // Get.toNamed(RouteHelper.otpScreen);
+                                        verify(
+                                            authController,
+                                            _phoneController.text.trim(),
+                                            _countryDialCode);
 
+                                        // Get.toNamed(RouteHelper.otpScreen);
                                         // controller.fetchOtpFromApi(
                                         //   phone: fullPhoneNumber,
                                         //   rawPhone: number,
@@ -411,24 +414,27 @@ class SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
+}
 
-  void verify(AuthController authController) async {
-    String number = _phoneController.text.trim();
-    String fullPhoneNumber = "$_countryDialCode$number";
-    PhoneValid phoneValid = await CustomValidator.isPhoneValid(fullPhoneNumber);
-    String numberWithCountryCode = phoneValid.phone;
+void verify(AuthController authController, String phoneController,
+    String? countryDialCode) async {
+  String number = phoneController;
+  String fullPhoneNumber = "$countryDialCode$number";
+  PhoneValid phoneValid = await CustomValidator.isPhoneValid(fullPhoneNumber);
+  String numberWithCountryCode = phoneValid.phone;
 
-    if (_formKeyLogin!.currentState!.validate()) {
-      // Move this if needed
-      authController.login(numberWithCountryCode).then((status) async {
-        print("API_Response: ${status.message}");
-        final controller = Get.put(OtpController());
-        controller.status = status;
-        controller.authController = authController;
-        // exitsUser(status, authController, numberWithCountryCode);
-      });
-    }
-  }
+//  if (formKeyLogin!.currentState!.validate()) {
+  // Move this if needed
+  authController.login(numberWithCountryCode).then((status) async {
+    print("API_Response: ${status.message}");
+    final controller = Get.put(OtpController());
+    controller.retry();
+
+    controller.status = status;
+    controller.authController = authController;
+    controller.numberWithCountryCode.value = numberWithCountryCode;
+    // exitsUser(status, authController, numberWithCountryCode);
+  });
 }
 
 void exitsUser(ResponseModel status, AuthController authController,

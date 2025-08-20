@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
+import 'package:sixam_mart/features/auth/screens/sign_in_screen.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 
@@ -13,6 +14,9 @@ class OtpController extends GetxController {
 
   RxBool userExit = false.obs;
   var numberWithCountryCode = ''.obs;
+  RxString countryCode = ''.obs;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState>? get formKeyLogin => formKey;
 
   ResponseModel? _status;
   ResponseModel? get statusValue => _status;
@@ -34,11 +38,12 @@ class OtpController extends GetxController {
 
   final RegExp intRegex = RegExp(r'^\d+$');
 
-  @override
-  void onInit() {
-    super.onInit();
-    startTimer();
-  }
+  //@override
+  // void onInit() {
+  //   super.onInit();
+  //   // resetOtpState();
+  //   // startTimer();
+  // }
 
   void onOtpChanged(String code) {
     otpCode.value = code;
@@ -56,7 +61,7 @@ class OtpController extends GetxController {
     verifyOtpCode(context: context);
   }
 
-  void verifyOtpCode({BuildContext? context, bool? valid}) async {
+  void verifyOtpCode({BuildContext? context}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('otp');
     correctOtp.value = token ?? '';
@@ -80,7 +85,7 @@ class OtpController extends GetxController {
         await prefs.setBool(AppConstants.isOtpVerified, true);
 
         //  if (userExit == true) {
-        //   exitsUser(statusValue!, auth!, numberWithCountryCode.value);
+        exitsUser(statusValue!, auth!, numberWithCountryCode.value);
         //  } else {
         Get.offAllNamed(RouteHelper.getInitialRoute());
         // }
@@ -103,13 +108,13 @@ class OtpController extends GetxController {
   }
 
   void startTimer() {
-    seconds.value = 0;
+    seconds.value = 30; // start from 30
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (seconds.value >= 30) {
+      if (seconds.value <= 0) {
         timer.cancel();
       } else {
-        seconds.value++;
+        seconds.value--;
       }
     });
   }

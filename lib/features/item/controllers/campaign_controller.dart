@@ -57,10 +57,10 @@ class CampaignController extends GetxController implements GetxService {
         _itemCampaignList = [];
         List<Item> campaign = [];
         campaign.addAll(itemCampaignList);
-        for (var c in campaign) {
+        //for (var c in campaign) {
           // if(!Get.find<SplashController>().getModuleConfig(c.moduleType).newVariation! || c.variations!.isEmpty || c.foodVariations!.isNotEmpty) {
           //   _itemCampaignList!.add(c);
-          }
+         // }
         }
       }
       update();

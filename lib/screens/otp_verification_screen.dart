@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
+import 'package:sixam_mart/features/auth/screens/sign_in_screen.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'otp_controller.dart';
 import 'button_widgte.dart';
@@ -22,7 +24,7 @@ class OtpVerificationScreen extends StatelessWidget {
             GestureDetector(
               onTap: () => Get.back(),
               child: const Row(children: [
-                Icon(Icons.arrow_back, size: 30, color: Color(0xFF0D6EFD)),
+                Icon(Icons.arrow_back, size: 30, color: Color(0xFF215A92)),
                 Spacer(),
               ]),
             ),
@@ -31,18 +33,15 @@ class OtpVerificationScreen extends StatelessWidget {
               'OTP Verification',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF0D6EFD),
+                color: Color(0xFF215A92),
                 fontSize: 32,
               ),
             ),
             const SizedBox(height: 25),
-            const Text(
-              'Enter the verification code we just sent on your phone number.',
-              style: TextStyle(
-                color: Color(0xFF717171),
-                fontSize: 15,
-              ),
-            ),
+            Obx(() => Text(
+                  'Enter the verification code we just sent to your WhatsApp number: ${controller.numberWithCountryCode.value}',
+                  style: const TextStyle(fontSize: 14, color: Colors.black87),
+                )),
             const SizedBox(height: 30),
             Obx(() => PinFieldAutoFill(
                   controller: controller.textEditingController,
@@ -62,7 +61,7 @@ class OtpVerificationScreen extends StatelessWidget {
                   cursor: Cursor(
                     width: 2,
                     height: 20,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.blue,
                     enabled: true,
                   ),
                 )),
@@ -77,7 +76,7 @@ class OtpVerificationScreen extends StatelessWidget {
                             ? 'Resend OTP'
                             : '00:${controller.seconds.value.toString().padLeft(2, '0')}',
                         style: TextStyle(
-                          color: controller.seconds.value == 30
+                          color: controller.seconds.value == 00
                               ? Colors.redAccent
                               : const Color(0xFFA8B3BE),
                           fontSize: 18,
@@ -97,16 +96,20 @@ class OtpVerificationScreen extends StatelessWidget {
                   ),
                 ),
                 Obx(() => TextButton(
-                      onPressed: controller.seconds.value == 30
+                      onPressed: controller.seconds.value == 00
                           ? () {
-                              controller.retry();
-                              controller.startTimer();
+                              final auth = Get.find<AuthController>();
+                              verify(
+                                auth,
+                                controller.numberWithCountryCode.value,
+                                controller.countryCode.value,
+                              );
                             }
                           : null,
                       child: Text(
                         'Resend',
                         style: TextStyle(
-                          color: controller.seconds.value == 30
+                          color: controller.seconds.value == 00
                               ? Colors.black87
                               : Colors.grey,
                           fontSize: 16,
@@ -119,7 +122,10 @@ class OtpVerificationScreen extends StatelessWidget {
             Obx(() => ButtonWidget(
                   isDisabled: !controller.enableButton.value,
                   isLoading: controller.isLoadingButton.value,
-                  onTap: () => controller.onSubmitOtp(context),
+                  onTap: () async {
+                    //     bool result =
+                    controller.verifyOtpCode(context: context);
+                  },
                   label: 'VERIFY',
                 )),
           ],

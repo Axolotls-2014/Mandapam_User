@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
-import 'package:sixam_mart/features/cart/domain/models/cart_model.dart';
+//import 'package:sixam_mart/features/cart/domain/models/cart_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
@@ -468,21 +468,21 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     );
   }
 
-  List<int?> _getSelectedAddonIds({required List<AddOn> addOnIdList }) {
-    List<int?> listOfAddOnId = [];
-    for (var addOn in addOnIdList) {
-      listOfAddOnId.add(addOn.id);
-    }
-    return listOfAddOnId;
-  }
+  // List<int?> _getSelectedAddonIds({required List<AddOn> addOnIdList }) {
+  //   List<int?> listOfAddOnId = [];
+  //   for (var addOn in addOnIdList) {
+  //     listOfAddOnId.add(addOn.id);
+  //   }
+  //   return listOfAddOnId;
+  // }
 
-  List<int?> _getSelectedAddonQtnList({required List<AddOn> addOnIdList }) {
-    List<int?> listOfAddOnQty = [];
-    for (var addOn in addOnIdList) {
-      listOfAddOnQty.add(addOn.quantity);
-    }
-    return listOfAddOnQty;
-  }
+  // List<int?> _getSelectedAddonQtnList({required List<AddOn> addOnIdList }) {
+  //   List<int?> listOfAddOnQty = [];
+  //   for (var addOn in addOnIdList) {
+  //     listOfAddOnQty.add(addOn.quantity);
+  //   }
+  //   return listOfAddOnQty;
+  // }
 
 // double _getItemDetailsDiscountPrice({required CartModel cart}) {
 //     double discountedPrice = 0;
