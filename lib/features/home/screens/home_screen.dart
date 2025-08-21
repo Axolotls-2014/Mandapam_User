@@ -246,15 +246,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       searchController.clear();
                       splashController.setRefreshing(true);
                       if (Get.find<SplashController>().module != null) {
-                        await Get.find<LocationController>().syncZoneData();
+                        // await Get.find<LocationController>().syncZoneData();
                         // if (isGrocery) {
                         //   await Get.find<FlashSaleController>()
                         //       .getFlashSale(true, true);
                         // }
                         // await Get.find<ItemController>()
                         //     .getDiscountedItemList(true, false, 'all');
-                        await Get.find<CategoryController>()
-                            .getCategoryList(true);
+                        // await Get.find<CategoryController>().getCategoryList(true);
+                        // await Get.find<DecoratorController>().getNearByDecorator(true);
                         // await Get.find<StoreController>()
                         //     .getPopularStoreList(true, 'all', false);
                         // await Get.find<CampaignController>()
@@ -270,36 +270,34 @@ class _HomeScreenState extends State<HomeScreen> {
                         // await Get.find<StoreController>().getStoreList(1, true);
                         // Get.find<AdvertisementController>()
                         //     .getAdvertisementList();
-                        await Get.find<DecoratorController>()
-                            .getNearByDecorator(true);
                         // await Get.find<DecoratorController>()
-                        //     .getEventDecorator(true);
+                        //    .getEventDecorator(true);
                         // await Get.find<DetailsController>().changeMedia(true);
-                        if (AuthHelper.isLoggedIn()) {
-                          await Get.find<ProfileController>().getUserInfo();
-                          await Get.find<NotificationController>()
-                              .getNotificationList(true);
-                          Get.find<CouponController>().getCouponList();
-                        }
-                        if (isPharmacy) {
-                          Get.find<ItemController>()
-                              .getBasicMedicine(true, true);
-                          Get.find<ItemController>().getCommonConditions(true);
-                        }
-                        if (isShop) {
-                          await Get.find<FlashSaleController>()
-                              .getFlashSale(true, true);
-                          Get.find<ItemController>()
-                              .getFeaturedCategoriesItemList(true, true);
-                          Get.find<BrandsController>().getBrandList();
-                        }
-                      } else {
-                        await Get.find<SplashController>().getModules();
-                        if (AuthHelper.isLoggedIn()) {
-                          await Get.find<AddressController>().getAddressList();
-                        }
-                        await Get.find<StoreController>()
-                            .getFeaturedStoreList();
+                        //   if (AuthHelper.isLoggedIn()) {
+                        //     await Get.find<ProfileController>().getUserInfo();
+                        //     await Get.find<NotificationController>()
+                        //         .getNotificationList(true);
+                        //     Get.find<CouponController>().getCouponList();
+                        //   }
+                        //   if (isPharmacy) {
+                        //     Get.find<ItemController>()
+                        //         .getBasicMedicine(true, true);
+                        //     Get.find<ItemController>().getCommonConditions(true);
+                        //   }
+                        //   if (isShop) {
+                        //     await Get.find<FlashSaleController>()
+                        //         .getFlashSale(true, true);
+                        //     Get.find<ItemController>()
+                        //         .getFeaturedCategoriesItemList(true, true);
+                        //     Get.find<BrandsController>().getBrandList();
+                        //   }
+                        // } else {
+                        //   await Get.find<SplashController>().getModules();
+                        //   if (AuthHelper.isLoggedIn()) {
+                        //     await Get.find<AddressController>().getAddressList();
+                        //   }
+                        //   await Get.find<StoreController>()
+                        //       .getFeaturedStoreList();
                       }
                       splashController.setRefreshing(false);
                     },
@@ -488,13 +486,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               SliverToBoxAdapter(
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 8),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
+                                      boxShadow: const [
                                         BoxShadow(
                                           color: Colors.black12,
                                           blurRadius: 4,
@@ -506,22 +504,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                       controller: searchController,
                                       decoration: InputDecoration(
                                         hintText: 'Search...',
-                                        hintStyle: TextStyle(fontSize: 14),
-                                        prefixIcon: Icon(Icons.search),
-                                        suffixIcon:
-                                            searchController.text.isNotEmpty
-                                                ? IconButton(
-                                                    icon: Icon(Icons.clear),
-                                                    onPressed: () {
-                                                      searchController.clear();
-                                                    },
-                                                  )
-                                                : null,
+                                        hintStyle:
+                                            const TextStyle(fontSize: 14),
+                                        prefixIcon: const Icon(Icons.search),
+                                        suffixIcon: searchController
+                                                .text.isNotEmpty
+                                            ? IconButton(
+                                                icon: const Icon(Icons.clear),
+                                                onPressed: () {
+                                                  searchController.clear();
+                                                },
+                                              )
+                                            : null,
                                         border: InputBorder.none,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 12, horizontal: 16),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 12, horizontal: 16),
                                       ),
-                                      style: TextStyle(fontSize: 14),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                   ),
                                 ),
@@ -538,11 +538,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                                 isGrocery
-                                                    ? GroceryHomeScreen()
+                                                    ? const GroceryHomeScreen()
                                                     : isPharmacy
-                                                        ? PharmacyHomeScreen()
+                                                        ? const PharmacyHomeScreen()
                                                         : isFood
-                                                            ? FoodHomeScreen()
+                                                            ? const FoodHomeScreen()
                                                             : isShop
                                                                 ? ShopHomeScreen(
                                                                     searchQuery:

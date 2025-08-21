@@ -136,7 +136,7 @@ class ApiClient extends GetxService {
     try {
       if (kDebugMode) {
         print(
-            'API_CLIEND:::====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
+            'Loading data:====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
       }
       // log("API_CLIEND:::token:::$token");
       // log("API_CLIEND:::(appBaseUrl + uri)::::${(appBaseUrl + uri)}");

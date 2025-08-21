@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/api/api_client.dart';
 import 'package:get/get.dart';
@@ -29,6 +30,7 @@ class DecoratorRepository implements DecoratorRepositoryInterface {
     DecoratorModel? decoratorModel;
     Response response = await apiClient.getData('/api/v1/events/get-decorator');
     if (response.statusCode == 200) {
+      log("Decorator List Response: ${response.body}");
       decoratorModel = decoratorModelFromJson(response.body);
     }
 

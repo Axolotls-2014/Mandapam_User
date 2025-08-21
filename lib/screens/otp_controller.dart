@@ -15,6 +15,7 @@ class OtpController extends GetxController {
   RxBool userExit = false.obs;
   var numberWithCountryCode = ''.obs;
   RxString countryCode = ''.obs;
+
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState>? get formKeyLogin => formKey;
 
@@ -32,6 +33,7 @@ class OtpController extends GetxController {
   var isLoadingButton = false.obs;
   var enableButton = false.obs;
   var seconds = 0.obs;
+  
   Timer? _timer;
   RxBool valid = false.obs;
   var number = ''.obs;
