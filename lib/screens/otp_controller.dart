@@ -32,20 +32,20 @@ class OtpController extends GetxController {
 
   var isLoadingButton = false.obs;
   var enableButton = false.obs;
-  var seconds = 0.obs;
-  
+  var seconds = 30.obs;
+
   Timer? _timer;
   RxBool valid = false.obs;
   var number = ''.obs;
 
   final RegExp intRegex = RegExp(r'^\d+$');
 
-  //@override
-  // void onInit() {
-  //   super.onInit();
-  //   // resetOtpState();
-  //   // startTimer();
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+    // resetOtpState();
+    startTimer();
+  }
 
   void onOtpChanged(String code) {
     otpCode.value = code;
@@ -91,7 +91,7 @@ class OtpController extends GetxController {
         //  } else {
         Get.offAllNamed(RouteHelper.getInitialRoute());
         // }
-        resetOtpState();
+        //   resetOtpState();
       } else {
         Get.snackbar(
           "Verification Failed",
@@ -105,7 +105,7 @@ class OtpController extends GetxController {
   }
 
   void retry() {
-    resetOtpState();
+    //   resetOtpState();
     startTimer();
   }
 
@@ -122,17 +122,17 @@ class OtpController extends GetxController {
   }
 
   /// Reset all OTP values
-  void resetOtpState() {
-    textEditingController.clear();
-    otpCode.value = '';
-    enableButton.value = false;
-    seconds.value = 0;
-    _timer?.cancel();
-  }
+  // void resetOtpState() {
+  //   textEditingController.clear();
+  //   otpCode.value = '';
+  //   enableButton.value = false;
+  //   seconds.value = 0;
+  //   _timer?.cancel();
+  // }
 
   @override
   void onClose() {
-    resetOtpState();
+    //resetOtpState();
     //  textEditingController.dispose();
     super.onClose();
   }

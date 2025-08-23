@@ -427,9 +427,7 @@ void verify(AuthController authController, String phoneController,
   // Move this if needed
   authController.login(numberWithCountryCode).then((status) async {
     print("API_Response: ${status.message}");
-    final controller = Get.put(OtpController());
-    controller.retry();
-
+    final controller = Get.find<OtpController>();
     controller.status = status;
     controller.authController = authController;
     controller.numberWithCountryCode.value = numberWithCountryCode;

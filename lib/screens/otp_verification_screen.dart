@@ -96,7 +96,7 @@ class OtpVerificationScreen extends StatelessWidget {
                   ),
                 ),
                 Obx(() => TextButton(
-                      onPressed: controller.seconds.value == 00
+                      onPressed: controller.seconds.value == 0
                           ? () {
                               final auth = Get.find<AuthController>();
                               verify(
