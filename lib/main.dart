@@ -103,74 +103,43 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _route() async {
-  debugPrint("🚀 _route() started");
+    if (GetPlatform.isWeb) {
+      Get.find<SplashController>().initSharedData();
+      if (AddressHelper.getUserAddressFromSharedPref() != null &&
+          AddressHelper.getUserAddressFromSharedPref()!.zoneIds == null) {
+        Get.find<AuthController>().clearSharedAddress();
+      }
 
-  if (GetPlatform.isWeb) {
-    debugPrint("🌍 Running on Web");
+      if (!AuthHelper.isLoggedIn() && !AuthHelper.isGuestLoggedIn()) {
+        await Get.find<AuthController>().guestLogin();
+      }
 
-    Get.find<SplashController>().initSharedData();
-    debugPrint("✅ SplashController -> initSharedData() called");
-
-    if (AddressHelper.getUserAddressFromSharedPref() != null &&
-        AddressHelper.getUserAddressFromSharedPref()!.zoneIds == null) {
-      Get.find<AuthController>().clearSharedAddress();
-      debugPrint("🗑️ Cleared shared address (zoneIds was null)");
+      if ((AuthHelper.isLoggedIn() || AuthHelper.isGuestLoggedIn()) &&
+          Get.find<SplashController>().cacheModule != null) {
+        // Get.find<CartController>().getCartDataOnline();
+      }
     }
+    // Get.find<ProfileController>().clearUserInfo();
+    // Get.find<AuthController>().socialLogout();
+    // //Get.find<CartController>().clearCartList(canRemoveOnline: false);
+    // Get.find<FavouriteController>().removeFavourite();
+    // await Get.find<AuthController>().clearSharedData();
+    // Get.find<HomeController>().forcefullyNullCashBackOffers();
+    // Get.offAllNamed(RouteHelper.getInitialRoute());
 
-    if (!AuthHelper.isLoggedIn() && !AuthHelper.isGuestLoggedIn()) {
-      await Get.find<AuthController>().guestLogin();
-      debugPrint("👤 Guest login executed");
-    }
-
-    if ((AuthHelper.isLoggedIn() || AuthHelper.isGuestLoggedIn()) &&
-        Get.find<SplashController>().cacheModule != null) {
-      Get.find<CartController>().getCartDataOnline();
-      debugPrint("🛒 Cart data fetched online");
-    }
-  }
-
-  Get.find<ProfileController>().clearUserInfo();
-  debugPrint("🧹 Cleared user info");
-
-  Get.find<AuthController>().socialLogout();
-  debugPrint("🚪 Social logout done");
-
-  // Get.find<CartController>().clearCartList(canRemoveOnline: false);
-  Get.find<FavouriteController>().removeFavourite();
-  debugPrint("❤️ Favourites cleared");
-
-  await Get.find<AuthController>().clearSharedData();
-  debugPrint("🧹 Auth shared data cleared");
-
-  Get.find<HomeController>().forcefullyNullCashBackOffers();
-  debugPrint("💰 Cashback offers forcefully nulled");
-
-  // Get.offAllNamed(RouteHelper.getInitialRoute());
-
-  Get.find<SplashController>()
-      .getConfigData(loadLandingData: GetPlatform.isWeb)
-      .then((bool isSuccess) async {
-   // debugPrint("⚙️ getConfigData completed -> success = $isSuccess");
-
-    if (isSuccess) {
-      if (Get.find<AuthController>().isLoggedIn()) {
-        debugPrint("🔑 User is logged in, updating token...");
-
-        Get.find<AuthController>().updateToken();
-        debugPrint("✅ Token updated");
-
-        if (Get.find<SplashController>().module != null) {
-          await Get.find<FavouriteController>().getFavouriteList();
-          debugPrint("❤️ Favourite list fetched");
+    Get.find<SplashController>()
+        .getConfigData(loadLandingData: GetPlatform.isWeb)
+        .then((bool isSuccess) async {
+      if (isSuccess) {
+        if (Get.find<AuthController>().isLoggedIn()) {
+          Get.find<AuthController>().updateToken();
+          if (Get.find<SplashController>().module != null) {
+            await Get.find<FavouriteController>().getFavouriteList();
+          }
         }
       }
-    } else {
-      debugPrint("❌ Config data failed to load");
-    }
-  });
-
-  debugPrint("🏁 _route() finished");
-}
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

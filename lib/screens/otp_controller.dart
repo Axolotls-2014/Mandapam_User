@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
-import 'package:sixam_mart/features/auth/screens/sign_in_screen.dart';
+import 'package:sixam_mart/features/auth/domain/reposotories/auth_repository_interface.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 
@@ -15,6 +15,7 @@ class OtpController extends GetxController {
   RxBool userExit = false.obs;
   var numberWithCountryCode = ''.obs;
   RxString countryCode = ''.obs;
+  RxString token = ''.obs;
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState>? get formKeyLogin => formKey;
@@ -65,8 +66,10 @@ class OtpController extends GetxController {
 
   void verifyOtpCode({BuildContext? context}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('otp');
-    correctOtp.value = token ?? '';
+    final authService = Get.find<AuthRepositoryInterface>();
+    String? otp = prefs.getString('otp');
+    token.value = prefs.getString('token') ?? '';
+    correctOtp.value = otp ?? '';
     isLoadingButton.value = true;
     Future.delayed(const Duration(seconds: 1), () async {
       isLoadingButton.value = false;
@@ -85,11 +88,15 @@ class OtpController extends GetxController {
         );
 
         await prefs.setBool(AppConstants.isOtpVerified, true);
+        authService.saveUserToken(token.value);
+        authService.updateToken();
+        authService.clearSharedPrefGuestId();
+        Get.offNamed(RouteHelper.getInitialRoute(fromSplash: true));
 
         //  if (userExit == true) {
-        exitsUser(statusValue!, auth!, numberWithCountryCode.value);
+        // exitsUser(statusValue!, auth!, numberWithCountryCode.value);
         //  } else {
-        Get.offAllNamed(RouteHelper.getInitialRoute());
+        // Get.offAllNamed(RouteHelper.getInitialRoute());
         // }
         //   resetOtpState();
       } else {

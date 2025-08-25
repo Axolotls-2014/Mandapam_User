@@ -15,7 +15,7 @@ import 'package:sixam_mart/helper/route_helper.dart';
 
 class AuthController extends GetxController implements GetxService {
   final AuthServiceInterface authServiceInterface;
-  AuthController({required this.authServiceInterface}){
+  AuthController({required this.authServiceInterface}) {
     _notification = authServiceInterface.isSharedPrefNotificationActive();
   }
 
@@ -50,8 +50,11 @@ class AuthController extends GetxController implements GetxService {
   Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
     _isLoading = true;
     update();
-    ResponseModel responseModel = await authServiceInterface.registration(signUpBody, Get.find<SplashController>().configModel!.customerVerification!);
-    if (responseModel.isSuccess && !Get.find<SplashController>().configModel!.customerVerification!) {
+    ResponseModel responseModel = await authServiceInterface.registration(
+        signUpBody,
+        Get.find<SplashController>().configModel!.customerVerification!);
+    if (responseModel.isSuccess &&
+        !Get.find<SplashController>().configModel!.customerVerification!) {
       Get.find<ProfileController>().getUserInfo();
     }
     _isLoading = false;
@@ -59,18 +62,24 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  Future<ResponseModel> login(String? phone,) async {
+  Future<ResponseModel> login(
+    String? phone,
+  ) async {
     _isLoading = true;
     update();
-    ResponseModel responseModel = await authServiceInterface.login(phone: phone, isCustomerVerificationOn: Get.find<SplashController>().configModel!.customerVerification!);
-    if (responseModel.isSuccess && !Get.find<SplashController>().configModel!.customerVerification! && responseModel.isPhoneVerified!) {
+    ResponseModel responseModel = await authServiceInterface.login(
+        phone: phone,
+        isCustomerVerificationOn:
+            Get.find<SplashController>().configModel!.customerVerification!);
+    if (responseModel.isSuccess &&
+        !Get.find<SplashController>().configModel!.customerVerification! &&
+        responseModel.isPhoneVerified!) {
       Get.find<ProfileController>().getUserInfo();
     }
     _isLoading = false;
     update();
     return responseModel;
   }
-
 
   @override
   Future<String?> getUserId() async {
@@ -90,8 +99,10 @@ class AuthController extends GetxController implements GetxService {
   Future<void> loginWithSocialMedia(SocialLogInBody socialLogInBody) async {
     _isLoading = true;
     update();
-    bool canNavigateToLocation = await authServiceInterface.loginWithSocialMedia(socialLogInBody, 60, Get.find<SplashController>().configModel!.customerVerification!);
-    if(canNavigateToLocation) {
+    bool canNavigateToLocation =
+        await authServiceInterface.loginWithSocialMedia(socialLogInBody, 60,
+            Get.find<SplashController>().configModel!.customerVerification!);
+    if (canNavigateToLocation) {
       Get.find<LocationController>().navigateToLocationScreen('sign-in');
     }
     _isLoading = false;
@@ -101,8 +112,10 @@ class AuthController extends GetxController implements GetxService {
   Future<void> registerWithSocialMedia(SocialLogInBody socialLogInBody) async {
     _isLoading = true;
     update();
-    bool canNavigateToLocationScreen = await authServiceInterface.registerWithSocialMedia(socialLogInBody, Get.find<SplashController>().configModel!.customerVerification!);
-    if(canNavigateToLocationScreen) {
+    bool canNavigateToLocationScreen =
+        await authServiceInterface.registerWithSocialMedia(socialLogInBody,
+            Get.find<SplashController>().configModel!.customerVerification!);
+    if (canNavigateToLocationScreen) {
       Get.find<LocationController>().navigateToLocationScreen('sign-in');
     }
     _isLoading = false;
@@ -140,8 +153,10 @@ class AuthController extends GetxController implements GetxService {
     return await authServiceInterface.clearSharedAddress();
   }
 
-  Future<void> saveUserNumberAndPasswordSharedPref(String number, String password, String countryCode) async {
-    await authServiceInterface.saveUserNumberAndPassword(number, password, countryCode);
+  Future<void> saveUserNumberAndPasswordSharedPref(
+      String number, String password, String countryCode) async {
+    await authServiceInterface.saveUserNumberAndPassword(
+        number, password, countryCode);
   }
 
   String getUserNumber() {
@@ -185,7 +200,7 @@ class AuthController extends GetxController implements GetxService {
     return authServiceInterface.getDmTipIndex();
   }
 
-  void saveEarningPoint(String point){
+  void saveEarningPoint(String point) {
     authServiceInterface.saveEarningPoint(point);
   }
 
@@ -207,7 +222,8 @@ class AuthController extends GetxController implements GetxService {
     return await authServiceInterface.saveDeviceToken();
   }
 
-  Future<void> firebaseVerifyPhoneNumber(String phoneNumber, String? token, {bool fromSignUp = true, bool canRoute = true})async {
+  Future<void> firebaseVerifyPhoneNumber(String phoneNumber, String? token,
+      {bool fromSignUp = true, bool canRoute = true}) async {
     _isLoading = true;
     update();
 
@@ -218,25 +234,23 @@ class AuthController extends GetxController implements GetxService {
         _isLoading = false;
         update();
 
-        if(e.code == 'invalid-phone-number') {
+        if (e.code == 'invalid-phone-number') {
           showCustomSnackBar('please_submit_a_valid_phone_number'.tr);
-        }else{
+        } else {
           showCustomSnackBar(e.message?.replaceAll('_', ' '));
         }
-
       },
       codeSent: (String vId, int? resendToken) {
-
         _isLoading = false;
         update();
 
-        if(canRoute) {
-          Get.toNamed(RouteHelper.getVerificationRoute(phoneNumber, token, fromSignUp ? RouteHelper.signUp : RouteHelper.forgotPassword, '', session: vId));
+        if (canRoute) {
+          Get.toNamed(RouteHelper.getVerificationRoute(phoneNumber, token,
+              fromSignUp ? RouteHelper.signUp : RouteHelper.forgotPassword, '',
+              session: vId));
         }
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
-
   }
-
 }

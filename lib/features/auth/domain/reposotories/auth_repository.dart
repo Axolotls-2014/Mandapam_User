@@ -121,11 +121,8 @@ class AuthRepository implements AuthRepositoryInterface {
   }
 
   @override
-  Future<Response> loginWithSocialMedia(
-      SocialLogInBody socialLogInBody, int timeout) async {
-    return await apiClient.postData(
-        AppConstants.socialLoginUri, socialLogInBody.toJson(),
-        timeout: timeout);
+  Future<Response> loginWithSocialMedia(SocialLogInBody socialLogInBody, int timeout) async {
+    return await apiClient.postData(AppConstants.socialLoginUri, socialLogInBody.toJson(),timeout: timeout);
   }
 
   @override
